@@ -269,6 +269,16 @@ final class MediaService
                 "MEDIA_IN_USE",
                 "Retira la imagen de los avisos antes de eliminarla.",
             );
+            $profile = $this->db->one(
+                "SELECT organization_id FROM public_profiles WHERE organization_id=? AND (cover_url LIKE ? OR logo_url LIKE ?)",
+                [$a["organizationId"], "%" . $id . "%", "%" . $id . "%"],
+            );
+            ApiError::require(
+                $profile === null,
+                409,
+                "MEDIA_IN_USE",
+                "Esta imagen es la portada o el logo de tu página pública. Cámbiala ahí antes de eliminarla.",
+            );
             $this->db->run("DELETE FROM media WHERE id=?", [$id]);
             $path = $this->config["mediaPath"] . "/" . $m["storage_name"];
             Support::audit($this->db, $r, "media.deleted", "media", $id);

@@ -51,6 +51,9 @@ export class PanoramaApi {
   createVisit(visit) { return this.request('POST', '/visits', visit) }
   cancelVisit(id, version) { return this.request('DELETE', `/visits/${encodeURIComponent(id)}`, { version }) }
   subscription() { return this.request('GET', '/workspace/subscription') }
+  profile() { return this.request('GET', '/workspace/profile') }
+  saveProfile(profile) { const { saved, name, joinedAt, coverageSource, ...body } = profile; return this.request('PUT', '/workspace/profile', body) }
+  brokerPage(slug) { return this.request('GET', `/public/brokers/${encodeURIComponent(slug)}`) }
   properties(query = {}, isPublic = false) { return this.request('GET', `${isPublic ? '/public' : ''}/properties`, undefined, { query }) }
   saveProperty(property) {
     const { id, brand, createdAt, updatedAt, ...body } = property

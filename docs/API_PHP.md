@@ -60,6 +60,10 @@ Base `/api/v1`. Todas las escrituras aceptan un objeto JSON y `Content-Type: app
 | GET | `/public/properties/{id}` | Público |
 | POST | `/public/properties/{id}/inquiries` | Público |
 | GET | `/public/brokers` | Público |
+| GET | `/public/brokers/{slug}` | Público: página de la corredora con cifras calculadas desde avisos publicados |
+| GET | `/public/broker-share/{slug}` | Público: HTML con Open Graph que redirige a `#corredora/{slug}` |
+| GET | `/workspace/profile` | Equipo de la corredora: página pública (o valores por defecto si no se ha guardado) |
+| PUT | `/workspace/profile` | Dueño o administrador: guarda slug único, frase, presentación, portada, logo, contacto, oficina y zonas declaradas |
 | POST | `/public/owner-requests` | Público |
 | GET | `/public/owner-requests/{id}` | Público |
 | DELETE | `/public/owner-requests/{id}` | Público |

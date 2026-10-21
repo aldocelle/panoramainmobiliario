@@ -108,6 +108,57 @@
 .plan-usage .eyebrow{color:var(--gold)}progress{accent-color:var(--gold)}progress::-webkit-progress-value{background:var(--gold)}
 .quota-strip,.notice{border-radius:12px}
 input,select,textarea{border-radius:10px}
+/* Página pública de corredora: portada con su foto, datos reales, presentación y contacto a la vista, cartera filtrable. */
+.broker-hero{position:relative;isolation:isolate;display:flex;flex-direction:column;min-height:540px;padding:0 var(--pad) 60px;overflow:hidden;color:#fff;background:var(--navy-deep)}
+.broker-cover{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover}
+.broker-hero::after{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(0deg,#0a1b33f5 0%,#0a1b33b8 48%,#0a1b334d 100%),linear-gradient(#0a1b33a6,transparent 30%)}
+.broker-hero :focus-visible{outline-color:var(--gold)}
+.broker-hero-body{display:flex;align-items:flex-end;gap:28px;margin-top:auto;padding-top:80px}
+.broker-hero-logo{flex:none;display:grid;place-items:center;width:112px;height:112px;overflow:hidden;border-radius:24px;background:#fff;box-shadow:0 18px 40px #0a1b3366;font-family:Manrope,sans-serif;font-size:38px;font-weight:800;color:var(--accent)}.broker-hero-logo img{width:100%;height:100%;padding:10px;object-fit:contain}
+.broker-kicker{margin:0 0 8px;font-size:13px;font-weight:600;color:var(--gold)}
+.broker-hero h1{margin:0;color:#fff;font-size:clamp(36px,4.6vw,60px);font-weight:750;line-height:1.05;letter-spacing:-.03em;text-wrap:balance}
+.broker-tagline{max-width:620px;margin:14px 0 0;color:#ffffffd9;font-size:17px;line-height:1.55}
+.broker-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.on-dark{background:#ffffff1a;color:#fff;border:1px solid #ffffff47}.on-dark:hover{background:#ffffff2e}
+@keyframes skeleton-pulse{50%{opacity:.55}}
+.broker-hero-logo.skeleton,.skeleton-line{background:#ffffff26;box-shadow:none;animation:skeleton-pulse 1.4s ease-in-out infinite}.skeleton-line{display:block;width:240px;height:18px;margin-top:14px;border-radius:6px}.skeleton-line.wide{width:min(460px,80%);height:46px;margin-top:0}
+.broker-facts{display:flex;flex-wrap:wrap;gap:12px 0;margin:0;padding:22px var(--pad);list-style:none;background:var(--bg-main);border-bottom:1px solid var(--border)}
+.broker-facts li{display:flex;align-items:baseline;gap:7px;padding:2px 26px;font-size:13px;color:var(--muted)}.broker-facts li:first-child{padding-left:0}.broker-facts li+li{border-left:1px solid var(--border)}
+.broker-facts strong{font-family:Manrope,sans-serif;font-size:24px;font-weight:750;letter-spacing:-.5px;color:var(--text-primary)}
+.broker-facts .broker-since{margin-left:auto;border-left:0!important;align-self:center}
+.broker-body{display:grid;grid-template-columns:minmax(0,1fr) 360px;align-items:start;gap:48px;padding:56px var(--pad) 8px}
+.broker-main section+section{margin-top:40px}
+.broker-main h2,.broker-contact h2{font-size:22px;letter-spacing:-.5px}
+.broker-presentation{max-width:68ch;white-space:pre-line;font-size:15.5px;line-height:1.75;color:var(--text-secondary);text-wrap:pretty}
+.broker-communes{display:flex;flex-wrap:wrap;gap:8px}.broker-communes .chip{padding-right:6px}.broker-communes .chip span{margin-left:4px;padding:1px 8px;border-radius:999px;background:#fff;font-size:11px}
+.broker-contact{position:sticky;top:24px;padding:24px;border:1px solid var(--border);border-radius:16px;background:var(--bg-card);box-shadow:0 6px 24px var(--shadow)}
+.contact-list{display:grid;margin:0;padding:0;list-style:none}
+.contact-list li{display:flex;align-items:center;gap:12px;min-height:56px;padding:6px 0;border-bottom:1px solid var(--border)}.contact-list li:last-child{border-bottom:0}
+.contact-list svg{flex:none;width:36px;height:36px;padding:8px;border-radius:10px;background:var(--badge);color:var(--accent)}
+.contact-list a,.contact-list span{display:flex;flex-direction:column;min-width:0;font-size:14px;font-weight:600;color:var(--text-primary);overflow-wrap:anywhere}.contact-list a:hover{color:var(--blue)}
+.contact-list small{font-size:11.5px;font-weight:500;color:var(--muted)}
+.contact-empty{margin:0;font-size:13px}
+.broker-contact h3{margin:22px 0 10px;font-size:14px}
+.coverage-list{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 8px;padding:0;list-style:none}.coverage-list li{padding:5px 11px;border:1px solid var(--border);border-radius:999px;font-size:12px}
+.coverage-note{display:block;font-size:11.5px}
+.broker-listings{padding:56px var(--pad) 80px}
+.broker-filters{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:-4px 0 24px}.broker-filters select{width:auto;min-height:44px}
+.segmented{display:inline-flex;padding:4px;border:1px solid var(--border);border-radius:999px;background:var(--bg-main)}
+.segmented button{min-height:36px;padding:0 16px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted);transition:background .2s,color .2s}.segmented button span{font-weight:500;opacity:.75}
+.segmented button[aria-pressed=true]{background:var(--accent);color:#fff}
+.publication-brand a{display:inline-flex;align-items:center;gap:4px;color:var(--accent);text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:text-decoration-color .2s}.publication-brand a:hover{text-decoration-color:currentColor}.publication-brand a svg{width:13px;height:13px}
+@media(max-width:800px){.broker-hero{min-height:0;padding-bottom:36px}.broker-hero-body{flex-direction:column;align-items:flex-start;gap:18px;padding-top:40px}.broker-hero-logo{width:84px;height:84px;border-radius:18px;font-size:28px}.broker-body{grid-template-columns:1fr;gap:32px;padding-top:36px}.broker-contact{position:static}.broker-facts li{padding:2px 14px}.broker-facts .broker-since{width:100%;margin-left:0;padding-left:0}.broker-listings{padding:40px var(--pad) 56px}}
+@media(max-width:560px){.broker-facts{display:grid;grid-template-columns:1fr 1fr}.broker-facts li{padding:0!important;border-left:0!important}.broker-facts .broker-since{grid-column:1/-1}.broker-filters .segmented{width:100%}.segmented button{flex:1;padding:0 10px}.broker-filters select{flex:1 1 40%}.broker-actions .button{flex:1 1 100%}}
+/* Editor de la página pública en el panel. */
+.slug-field{display:flex;align-items:center;overflow:hidden;border:1px solid var(--input-border);border-radius:10px;background:var(--paper)}.slug-field span{padding:0 2px 0 12px;font-weight:500;color:var(--muted);white-space:nowrap}.slug-field input{border:0;padding-left:2px}.slug-field:focus-within{outline:3px solid var(--accent);outline-offset:2px}.slug-field input:focus-visible{outline:0}
+.profile-images{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin:6px 0 20px}
+.image-field{display:flex;flex-direction:column;gap:8px}
+.image-preview{display:grid;place-items:center;overflow:hidden;border:1px dashed var(--input-border);border-radius:12px;background:var(--bg-main);font-size:12px;text-align:center;color:var(--muted)}.image-preview.cover{aspect-ratio:16/6;max-height:240px}.image-preview.logo{aspect-ratio:1;max-width:180px}.image-preview img{width:100%;height:100%;object-fit:cover}.image-preview.logo img{padding:10px;object-fit:contain}.image-preview span{padding:12px}
+.image-actions{display:flex;align-items:center;gap:12px}
+.profile-editor label small,.profile-editor fieldset>small,.image-field small{font-weight:500;color:var(--muted)}
+.zone-input{display:flex;gap:10px;margin-bottom:12px}.zone-input input{flex:1}
+.profile-save{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:8px}.profile-save .saved-profile{margin:0}.profile-url{display:block;margin-top:12px;overflow-wrap:anywhere}
+@media(max-width:560px){.profile-images{grid-template-columns:1fr}.zone-input{flex-wrap:wrap}.zone-input .button{flex:1}}
 /* Animación: solo en la portada pública (el panel carga directo a la tarea). --i escalona la entrada de las tarjetas. */
 @keyframes lab-fade{from{opacity:0}}
 .public-main .property-card{animation:lab-fade 900ms cubic-bezier(.16,1,.3,1) calc(var(--i,0) * 120ms) backwards}

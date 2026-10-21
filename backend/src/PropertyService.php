@@ -47,6 +47,7 @@ final class PropertyService
             $out["brand"] = [
                 "name" => $p["brand_name"],
                 "logo" => $p["brand_logo"],
+                "slug" => $p["brand_slug"] ?? ProfileService::slugify($p["brand_name"]),
             ];
         }
         return $out;
@@ -182,7 +183,7 @@ final class PropertyService
         }
         $p = Support::record(
             $this->db->one(
-                "SELECT p.*,o.name brand_name,o.logo_url brand_logo FROM properties p JOIN organizations o ON o.id=p.organization_id JOIN subscriptions s ON s.organization_id=p.organization_id WHERE p.id=? AND p.status='Publicada' AND p.deleted_at IS NULL AND s.status IN ('pilot','active')",
+                "SELECT p.*,o.name brand_name,COALESCE(NULLIF(pp.logo_url,''),o.logo_url) brand_logo,pp.slug brand_slug FROM properties p JOIN organizations o ON o.id=p.organization_id LEFT JOIN public_profiles pp ON pp.organization_id=p.organization_id JOIN subscriptions s ON s.organization_id=p.organization_id WHERE p.id=? AND p.status='Publicada' AND p.deleted_at IS NULL AND s.status IN ('pilot','active')",
                 [$id],
             ),
         );
@@ -296,7 +297,7 @@ final class PropertyService
             $params,
         )["total"];
         $rows = $this->db->all(
-            "SELECT p.*,o.name brand_name,o.logo_url brand_logo FROM properties p JOIN organizations o ON o.id=p.organization_id JOIN subscriptions s ON s.organization_id=p.organization_id WHERE $sql ORDER BY p.created_at DESC,p.id LIMIT $limit OFFSET $offset",
+            "SELECT p.*,o.name brand_name,COALESCE(NULLIF(pp.logo_url,''),o.logo_url) brand_logo,pp.slug brand_slug FROM properties p JOIN organizations o ON o.id=p.organization_id LEFT JOIN public_profiles pp ON pp.organization_id=p.organization_id JOIN subscriptions s ON s.organization_id=p.organization_id WHERE $sql ORDER BY p.created_at DESC,p.id LIMIT $limit OFFSET $offset",
             $params,
         );
         return new Response([

@@ -58,7 +58,7 @@ El script pide la contraseña en la terminal, muestra el contenido actual de `/p
 
 ## Actualizaciones
 
-Vuelve a ejecutar `deploy/build.sh` y `deploy/upload.sh`. Los archivos nuevos o cambiados se sobrescriben; las fotos de `app/var/media` no se tocan. Si hay migraciones nuevas en `backend/database/migrations/`, aplícalas antes de subir el código: con SSH `php bin/migrate.php`; sin SSH importa ese archivo en phpMyAdmin y agrega su fila en `schema_migrations`.
+Vuelve a ejecutar `deploy/build.sh` y `deploy/upload.sh`. Los archivos nuevos o cambiados se sobrescriben; las fotos de `app/var/media` no se tocan. Si hay migraciones nuevas en `backend/database/migrations/`, aplícalas antes de subir el código: con SSH `php bin/migrate.php`; sin SSH importa ese archivo en phpMyAdmin y agrega su fila en `schema_migrations`. Para la 005 (página pública de corredoras) el archivo listo es `build/sql/update-005-public-profiles.sql`; impórtalo antes de subir el código, porque el listado público ya consulta `public_profiles`.
 
 ## Imágenes
 

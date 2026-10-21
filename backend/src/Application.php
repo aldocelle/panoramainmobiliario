@@ -19,6 +19,7 @@ final class Application
         $recovery = new RecoveryService($db, $config);
         $media = new MediaService($db, $this->auth, $config);
         $favorites = new FavoriteService($db, $this->auth);
+        $profiles = new ProfileService($db, $this->auth, $config);
         $this->platform = $platform = new PlatformService($db, $this->auth, $config);
         $this->route("POST", "/platform/auth/login", fn($r) => $platform->login($r));
         $this->route("GET", "/platform/auth/session", fn($r) => $platform->session($r));
@@ -256,6 +257,10 @@ final class Application
             "/public/brokers",
             fn($r) => $capture->candidates($r),
         );
+        $this->route("GET", "/public/brokers/{slug}", fn($r, $slug) => $profiles->page($r, $slug));
+        $this->route("GET", "/public/broker-share/{slug}", fn($r, $slug) => $profiles->share($r, $slug));
+        $this->route("GET", "/workspace/profile", fn($r) => $profiles->mine($r));
+        $this->route("PUT", "/workspace/profile", fn($r) => $profiles->save($r));
         $this->route(
             "POST",
             "/public/owner-requests",
@@ -324,6 +329,7 @@ final class Application
             "([0-9a-fA-F-]{36})",
             $pattern,
         );
+        $pattern = str_replace("\\{slug\\}", "([a-z0-9-]{1,60})", $pattern);
         $this->routes[] = [$method, "~^" . $pattern . '$~D', $handler];
     }
     public function handle(Request $r): Response
