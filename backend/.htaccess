@@ -1,0 +1,5 @@
+# Defensa adicional si se carga por error el backend completo en public_html.
+# El document root debe apuntar exclusivamente a backend/public.
+<IfModule mod_authz_core.c>
+Require all denied
+</IfModule>

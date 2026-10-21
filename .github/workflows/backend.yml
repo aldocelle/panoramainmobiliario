@@ -1,0 +1,42 @@
+name: Backend PHP
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ['8.3', '8.4']
+    services:
+      mariadb:
+        image: mariadb:10.11
+        env:
+          MARIADB_ROOT_PASSWORD: test-only-password
+          MARIADB_DATABASE: panorama_test_ci
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo_mysql, pdo_sqlite, mbstring, sodium, fileinfo, gd
+          coverage: none
+      - run: find backend -name '*.php' -print0 | xargs -0 -n1 php -l
+      - run: php backend/tests/run.php
+      - run: python3 backend/tests/http-smoke.py
+      - run: php backend/tests/run.php && php backend/tests/concurrency.php
+        env:
+          PANORAMA_TEST_MYSQL: 'true'
+          DB_DRIVER: mysql
+          DB_HOST: 127.0.0.1
+          DB_DATABASE: panorama_test_ci
+          DB_USERNAME: root
+          DB_PASSWORD: test-only-password
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test backend/client/panorama-api.test.js

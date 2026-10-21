@@ -1,6 +1,10 @@
 # Panorama Inmobiliario
 
-Portal para venta y arriendo de propiedades en Chile, con un espacio de trabajo diseñado para corredores. Primera versión funcional de frontend en **Vue 3 + Vite**.
+Portal para venta y arriendo de propiedades en Chile, con un espacio de trabajo diseñado para corredores. Frontend en **Vue 3 + Vite** y API independiente en **PHP 8.3 + MySQL/MariaDB**. El frontend sigue en modo demostración local mientras se conecta a la API.
+
+## Antecedentes del proyecto
+
+Consulta el [documento maestro de Panorama Inmobiliario](docs/ANTECEDENTES_PANORAMA_INMOBILIARIO.md): modelo de negocio, referencias y tarifas del competidor, segmentos, beneficios, APIs, diseño, condiciones propias, estado de implementación y decisiones pendientes.
 
 ## Ejecutar
 
@@ -30,7 +34,7 @@ También incluye edición, cambios de estado, favoritos y recuperación de borra
 
 ## Alcance real de esta entrega
 
-**Es un prototipo funcional en un navegador, no un sistema listo para operar con clientes reales.** Datos ficticios y fotografías ilustrativas de Unsplash. No hay autenticación, backend, pagos ni envíos de correo/WhatsApp. El acceso al panel es libre y los registros se guardan en `localStorage`; cada navegador tiene una copia independiente. No introduzcas datos personales reales. El JSON exportado es un respaldo descargable; su importación todavía no está implementada.
+**Es un prototipo funcional en un navegador, no un sistema listo para operar con clientes reales.** Datos ficticios y fotografías ilustrativas de Unsplash. La interfaz de demostración no utiliza todavía la autenticación ni la API del directorio `backend/`; no hay pagos ni envíos de correo/WhatsApp conectados a estas pantallas. El acceso al panel es libre y los registros se guardan en `localStorage`; cada navegador tiene una copia independiente. No introduzcas datos personales reales. El JSON exportado es un respaldo descargable; su importación todavía no está implementada.
 
 Se incluyen las 16 regiones con códigos como texto. La comuna y el sector se ingresan manualmente. No se presenta un catálogo incompleto como cobertura validada de todas las comunas. Ver [plan territorial](docs/TERRITORIO.md).
 
@@ -46,9 +50,15 @@ Las fotografías y Google Fonts necesitan conexión; la interfaz tiene colores y
 - `tests/`: reglas del dominio.
 - `docs/`: dirección visual, alcance y desarrollo posterior.
 
+## Backend PHP
+
+Se implementó una API con 59 rutas: cuentas y roles, sesiones/CSRF, cartera multiempresa, cupos transaccionales, imágenes, favoritos, CRM, agenda, proyectos/unidades, programa de captación, exportaciones y auditoría. Incluye migraciones y herramientas de operación. Ver [inicio y pruebas](backend/README.md), [contrato de API](docs/API_PHP.md) y [despliegue PHP](docs/DESPLIEGUE_PHP.md).
+
+Validación local: 38 pruebas por motor en SQLite y MariaDB, concurrencia con dos procesos, HTTP real y pruebas del cliente JavaScript. GitHub Actions queda configurado; su resultado remoto debe comprobarse en GitHub.
+
 ## Próxima fase
 
-Backend con base de datos y migraciones; autenticación y aislamiento por corredora; almacenamiento de imágenes; catálogo territorial completo y validado; búsqueda geográfica; gestión de propietarios; consentimiento y tratamiento de datos; notificaciones e integraciones autorizadas; planes y facturación. La integración con APIs de terceros requiere comprobar disponibilidad, condiciones y límites antes de operar.
+Conectar el frontend a la API; catálogo territorial completo y validado; búsqueda geográfica; entrega de notificaciones; tarifas propias, planes y facturación. La integración con APIs de terceros requiere comprobar disponibilidad, condiciones y límites antes de operar.
 
 ## Planes y condiciones en preparación
 
@@ -59,3 +69,7 @@ Las condiciones propias de Panorama se encuentran en [Términos y condiciones](d
 En Planes y cupos también está la consulta de [zonas comerciales transcritas de la imagen](docs/ZONAS_TRANSCRIPCION.md). Se conserva como referencia externa: no sustituye el catálogo territorial ni determina tarifas propias.
 
 **Marca y beneficios** permite configurar nombre/logo para las publicaciones y descargar un reporte CSV actual de cartera. Informes trimestrales y webinars aparecen como beneficios previstos, aún no disponibles. Ver [beneficios para corredores](docs/BENEFICIOS_CORREDORES.md).
+
+Como propuesta futura de captación de propietarios se documentó [Conecta con un corredor](docs/PROGRAMA_CONECTA_CORREDOR.md), adaptando los antecedentes del programa compartido por el usuario. La API PHP implementa directorio, alta/baja y captación; falta conectar sus pantallas y desplegarlo. No hay recepción de solicitudes reales en el prototipo.
+
+La referencia de [paquetes de publicación individual](docs/PUBLICACIONES_INDIVIDUALES_REFERENCIA.md) y los formularios competitivos de alta/baja del programa están recogidos en la documentación maestra, distinguiendo fecha de referencia, propuestas e implementación pendiente.

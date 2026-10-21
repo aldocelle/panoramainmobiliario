@@ -1,0 +1,25 @@
+{
+  "name": "panorama/inmobiliario-api",
+  "description": "API PHP de Panorama Inmobiliario",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.3",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "ext-sodium": "*",
+    "ext-fileinfo": "*",
+    "ext-gd": "*",
+    "ext-pdo_mysql": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Panorama\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "php tests/run.php",
+    "migrate": "php bin/migrate.php"
+  }
+}

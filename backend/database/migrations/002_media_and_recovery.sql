@@ -1,0 +1,7 @@
+CREATE TABLE media (id VARCHAR(36) PRIMARY KEY, organization_id VARCHAR(36) NOT NULL, storage_name VARCHAR(80) NOT NULL UNIQUE, mime VARCHAR(40) NOT NULL, bytes INTEGER NOT NULL, width INTEGER NOT NULL, height INTEGER NOT NULL, created_at VARCHAR(32) NOT NULL, FOREIGN KEY(organization_id) REFERENCES organizations(id));
+CREATE TABLE favorites (user_id VARCHAR(36) NOT NULL, property_id VARCHAR(36) NOT NULL, created_at VARCHAR(32) NOT NULL, PRIMARY KEY(user_id,property_id), FOREIGN KEY(user_id) REFERENCES users(id), FOREIGN KEY(property_id) REFERENCES properties(id));
+CREATE TABLE password_resets (token_hash VARCHAR(64) PRIMARY KEY, user_id VARCHAR(36) NOT NULL, expires_at BIGINT NOT NULL, used_at VARCHAR(32), created_at VARCHAR(32) NOT NULL, FOREIGN KEY(user_id) REFERENCES users(id));
+CREATE INDEX password_resets_expiry ON password_resets(expires_at);
+CREATE TABLE mail_outbox (id VARCHAR(36) PRIMARY KEY, payload_cipher TEXT NOT NULL, status VARCHAR(20) NOT NULL, attempts INTEGER NOT NULL, available_at BIGINT NOT NULL, locked_at BIGINT, last_error VARCHAR(100), created_at VARCHAR(32) NOT NULL, sent_at VARCHAR(32));
+CREATE INDEX mail_outbox_pending ON mail_outbox(status,available_at);
+CREATE TABLE administrative_changes (id VARCHAR(36) PRIMARY KEY, organization_id VARCHAR(36) NOT NULL, reason VARCHAR(300) NOT NULL, old_limit INTEGER NOT NULL, new_limit INTEGER NOT NULL, old_status VARCHAR(20) NOT NULL, new_status VARCHAR(20) NOT NULL, created_at VARCHAR(32) NOT NULL, FOREIGN KEY(organization_id) REFERENCES organizations(id));

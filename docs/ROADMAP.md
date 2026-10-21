@@ -18,4 +18,12 @@ Portal público filtrable, favoritos, fichas, consulta local, panel de resumen, 
 
 ## Monetización posterior
 
-Suscripción para herramientas del corredor, perfil/sitio profesional y destacados cuando exista tráfico medible. Los planes, pagos, facturación y permisos por plan no forman parte del prototipo.
+Suscripción para herramientas del corredor, perfil/sitio profesional y destacados cuando exista tráfico medible. El prototipo ya incluye planes con cupos simulados y beneficios de marca/reporte local. La contratación real, pagos, facturación, renovaciones y permisos por plan en servidor siguen pendientes.
+
+Los antecedentes y decisiones consolidados se mantienen en [ANTECEDENTES_PANORAMA_INMOBILIARIO.md](ANTECEDENTES_PANORAMA_INMOBILIARIO.md).
+
+## Actualización: API PHP independiente
+
+Implementados en `backend/`: cuentas, roles, sesiones, migraciones, persistencia multiempresa, cartera/cupos, imágenes, favoritos, interesados, agenda, proyectos/unidades, captación y auditoría. Probados con SQLite y MariaDB. El frontend local todavía no consume esta API.
+
+Siguiente trabajo: integrar las vistas y formularios reales; verificación de cuentas; correo en hosting y pantalla de recuperación; facturación y pasarela; catálogo territorial; geobúsqueda; publicación pública de proyectos; moderación y métricas históricas. Documentación de instalación en `DESPLIEGUE_PHP.md` y contrato en `API_PHP.md`.
