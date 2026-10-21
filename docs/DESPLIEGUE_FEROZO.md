@@ -63,3 +63,7 @@ Vuelve a ejecutar `deploy/build.sh` y `deploy/upload.sh`. Los archivos nuevos o 
 ## Imágenes
 
 Toda foto se optimiza dos veces: en el navegador antes de subirla (lado mayor ≤ 2560 px, WebP) y en el servidor (orientación de cámara, lado mayor ≤ 1920 px, WebP calidad 78 y miniatura de 640 px). Las fotos públicas se sirven con caché de un año porque cada id es inmutable. Si se cambian esos tamaños o se migran fotos antiguas, ejecuta `php bin/optimize-media.php` en `app/` (con SSH): genera las miniaturas que falten y solo reemplaza una foto si la nueva pesa menos.
+
+## Llevar una cartera local a producción
+
+`php deploy/portfolio-export.php <id-org-local> <id-org-producción> /panorama/api/v1 <cupo>` genera `export/portfolio.sql` (propiedades, fotos y cupo, con el cambio registrado) y copia las fotos optimizadas a `export/media/`. Importa el SQL en phpMyAdmin y ejecuta `deploy/publish.sh --update` respondiendo `n` a reutilizar el paquete: `build.sh` incluye `export/media` en `app/var/media`. `export/` no se versiona.

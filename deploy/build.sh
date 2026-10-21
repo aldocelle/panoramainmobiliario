@@ -51,6 +51,11 @@ cp -R "$ROOT/backend/src" "$ROOT/backend/bin" "$ROOT/backend/database" "$ROOT/ba
 cp "$ROOT/deploy/templates/htaccess-root" "$OUT/.htaccess"
 cp "$ROOT/deploy/templates/htaccess-deny" "$OUT/app/.htaccess"
 cp "$ROOT/deploy/templates/htaccess-deny" "$OUT/app/var/.htaccess"
+# Fotos exportadas con deploy/portfolio-export.php (cartera ya optimizada): viajan en la subida.
+if compgen -G "$ROOT/export/media/*.webp" >/dev/null; then
+  cp "$ROOT"/export/media/*.webp "$OUT/app/var/media/"
+  echo "  + $(ls "$ROOT"/export/media/*.webp | wc -l | tr -d ' ') fotos de export/media"
+fi
 cp "$ROOT/backend/public/.htaccess" "$OUT/api/.htaccess"
 sed 's#dirname(__DIR__) . "/bootstrap.php"#dirname(__DIR__) . "/app/bootstrap.php"#' "$ROOT/backend/public/index.php" > "$OUT/api/index.php"
 grep -q '"/app/bootstrap.php"' "$OUT/api/index.php" || fail "no se pudo ajustar api/index.php."
