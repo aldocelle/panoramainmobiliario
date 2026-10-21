@@ -161,3 +161,7 @@ backups/
 # Despliegue: paquete generado y configuración de producción
 build/
 deploy/production.env
+
+# Credenciales de la cuenta de prueba local (solo npm run dev)
+.env.development.local
+.env*.local

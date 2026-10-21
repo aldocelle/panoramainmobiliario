@@ -36,6 +36,10 @@ echo "› Pruebas"
 
 echo "› Frontend"
 (cd "$ROOT" && npm run build >/dev/null)
+# Defensa: la contraseña de la cuenta de prueba local nunca debe quedar en el frontend publicado.
+DEMO_PASS="$(sed -n 's/^VITE_DEMO_PASSWORD=//p' "$ROOT/.env.development.local" 2>/dev/null || true)"
+if [ -n "$DEMO_PASS" ] && grep -rqF "$DEMO_PASS" "$ROOT/dist"; then fail "el frontend compilado contiene la contraseña de prueba."; fi
+unset DEMO_PASS
 
 echo "› Paquete en build/panorama"
 rm -rf "$ROOT/build"
