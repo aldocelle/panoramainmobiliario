@@ -238,6 +238,11 @@ final class Application
         );
         $this->route(
             "GET",
+            "/public/share/{id}",
+            fn($r, $id) => $properties->share($r, $id),
+        );
+        $this->route(
+            "GET",
             "/public/properties/{id}",
             fn($r, $id) => $properties->get($r, $id, true),
         );

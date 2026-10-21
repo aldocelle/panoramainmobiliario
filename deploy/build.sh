@@ -35,7 +35,11 @@ echo "› Pruebas"
 (cd "$ROOT" && npm test >/dev/null && php backend/tests/run.php >/dev/null) || fail "hay pruebas fallando; no se arma el paquete."
 
 echo "› Frontend"
-(cd "$ROOT" && npm run build >/dev/null)
+# URL pública del sitio: primer origen permitido + ruta de instalación (API_PREFIX sin /api/v1).
+SITE_URL="$(get ALLOWED_ORIGINS | cut -d, -f1)$(get API_PREFIX | sed 's#/api/v1$##')"
+echo "  URL del sitio para vistas previas: $SITE_URL"
+(cd "$ROOT" && PANORAMA_SITE_URL="$SITE_URL" npm run build >/dev/null)
+grep -q "$SITE_URL/og-image.jpg" "$ROOT/dist/index.html" || fail "index.html no quedó con la URL del sitio."
 # Defensa: la contraseña de la cuenta de prueba local nunca debe quedar en el frontend publicado.
 for key in VITE_DEMO_PASSWORD VITE_SUPERADMIN_PASSWORD; do
   DEMO_PASS="$(sed -n "s/^$key=//p" "$ROOT/.env.development.local" 2>/dev/null || true)"

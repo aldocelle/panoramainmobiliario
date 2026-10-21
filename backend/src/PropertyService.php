@@ -188,6 +188,56 @@ final class PropertyService
         );
         return new Response($this->serialize($p, true));
     }
+    /**
+     * Página mínima para compartir un aviso: etiquetas Open Graph (WhatsApp, Facebook) con título,
+     * precio, comuna y foto; a las personas las redirige a la ficha en el portal.
+     */
+    public function share(Request $r, string $id): Response
+    {
+        $site = rtrim($this->config["origins"][0] ?? "", "/") . preg_replace('~/api/v1$~', "", $this->config["prefix"]);
+        $origin = rtrim($this->config["origins"][0] ?? "", "/");
+        $p = $this->db->one(
+            "SELECT p.* FROM properties p JOIN subscriptions s ON s.organization_id=p.organization_id WHERE p.id=? AND p.status='Publicada' AND p.deleted_at IS NULL AND s.status IN ('pilot','active')",
+            [$id],
+        );
+        $e = fn($v) => htmlspecialchars((string) $v, ENT_QUOTES | ENT_HTML5, "UTF-8");
+        if (!$p) {
+            $title = "Panorama Inmobiliario — Tu próximo lugar";
+            $description = "Casas, departamentos, oficinas y terrenos en venta y arriendo en todo Chile.";
+            $image = "$site/og-image.jpg";
+            $target = "$site/";
+        } else {
+            $amount = (int) $p["price_minor"] / 100;
+            $price = $p["currency"] === "UF"
+                ? "UF " . number_format($amount, floor($amount) == $amount ? 0 : 2, ",", ".")
+                : "$" . number_format($amount, 0, ",", ".");
+            $title = $p["title"];
+            $parts = [$price, $p["type"] . " en " . mb_strtolower($p["operation"]), $p["commune"], rtrim(rtrim(number_format((float) $p["area"], 2, ",", "."), "0"), ",") . " m²"];
+            if ((int) $p["beds"] > 0) {
+                $parts[] = $p["beds"] . " dorm.";
+            }
+            if ((int) $p["baths"] > 0) {
+                $parts[] = $p["baths"] . ($p["baths"] == 1 ? " baño" : " baños");
+            }
+            $description = implode(" · ", $parts);
+            $first = json_decode($p["images_json"], true)[0] ?? "";
+            $image = match (true) {
+                str_starts_with($first, "/") => $origin . $first . "?size=share",
+                str_starts_with($first, "https://") => $first,
+                default => "$site/og-image.jpg",
+            };
+            $target = "$site/#propiedad/" . $p["id"];
+        }
+        $url = $origin . $this->config["prefix"] . "/public/share/" . $id;
+        $html = "<!doctype html><html lang=\"es-CL\"><head><meta charset=\"utf-8\"><title>" . $e($title) . " · Panorama Inmobiliario</title>" .
+            "<meta name=\"description\" content=\"" . $e($description) . "\">" .
+            "<meta property=\"og:type\" content=\"website\"><meta property=\"og:site_name\" content=\"Panorama Inmobiliario\"><meta property=\"og:locale\" content=\"es_CL\">" .
+            "<meta property=\"og:url\" content=\"" . $e($url) . "\"><meta property=\"og:title\" content=\"" . $e($title) . "\">" .
+            "<meta property=\"og:description\" content=\"" . $e($description) . "\"><meta property=\"og:image\" content=\"" . $e($image) . "\">" .
+            "<meta property=\"og:image:secure_url\" content=\"" . $e($image) . "\"><meta name=\"twitter:card\" content=\"summary_large_image\">" .
+            "<meta http-equiv=\"refresh\" content=\"0;url=" . $e($target) . "\"></head><body><p><a href=\"" . $e($target) . "\">Ver " . $e($title) . " en Panorama Inmobiliario</a></p></body></html>";
+        return new Response(null, 200, ["Content-Type" => "text/html; charset=utf-8", "Cache-Control" => "public, max-age=600"], null, $html);
+    }
     public function listing(Request $r, bool $public = false): Response
     {
         if (!$public) {

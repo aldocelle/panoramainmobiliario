@@ -209,8 +209,23 @@ final class MediaService
         }
         $path = $this->config["mediaPath"] . "/" . $media["storage_name"];
         $thumb = preg_replace('/\.webp$/', "-thumb.webp", $path);
-        if (($r->query["size"] ?? "") === "thumb" && is_file($thumb)) {
+        $size = $r->query["size"] ?? "";
+        if ($size === "thumb" && is_file($thumb)) {
             $path = $thumb;
+        }
+        // JPEG de 1200 px para vistas previas (WhatsApp no siempre muestra WebP). Se genera una vez.
+        $type = "image/webp";
+        if ($size === "share" && $public && is_file($path)) {
+            $share = preg_replace('/\.webp$/', "-share.jpg", $path);
+            if (!is_file($share) && ($image = @imagecreatefromwebp($path))) {
+                $scaled = self::scale($image, 1200);
+                imageinterlace($scaled, true);
+                imagejpeg($scaled, $share, 80);
+                chmod($share, 0600);
+            }
+            if (is_file($share)) {
+                [$path, $type] = [$share, "image/jpeg"];
+            }
         }
         ApiError::require(
             is_file($path),
@@ -222,8 +237,8 @@ final class MediaService
             null,
             200,
             [
-                "Content-Type" => "image/webp",
-                "Content-Disposition" => 'inline; filename="' . $id . '.webp"',
+                "Content-Type" => $type,
+                "Content-Disposition" => 'inline; filename="' . $id . ($type === "image/jpeg" ? ".jpg" : ".webp") . '"',
                 // Cada id es inmutable: la foto pública se puede guardar en caché por un año.
                 "Cache-Control" => $public ? "public, max-age=31536000, immutable" : "private, no-store",
             ],
@@ -258,7 +273,7 @@ final class MediaService
             $path = $this->config["mediaPath"] . "/" . $m["storage_name"];
             Support::audit($this->db, $r, "media.deleted", "media", $id);
         });
-        foreach ($path ? [$path, preg_replace('/\.webp$/', "-thumb.webp", $path)] : [] as $file) {
+        foreach ($path ? [$path, preg_replace('/\.webp$/', "-thumb.webp", $path), preg_replace('/\.webp$/', "-share.jpg", $path)] : [] as $file) {
             if (is_file($file)) {
                 unlink($file);
             }

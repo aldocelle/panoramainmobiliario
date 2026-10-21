@@ -1245,6 +1245,29 @@ test("fotos se optimizan: 1920 px, miniatura y caché pública", function () use
     eq($full->headers["Cache-Control"], "public, max-age=31536000, immutable");
     check(strlen($small->raw) < strlen($full->raw), "La miniatura debe pesar menos");
 });
+test("compartir: Open Graph por aviso, foto JPEG y aviso no publicado", function () use ($app) {
+    $owner = register("compartir@example.com");
+    $im = imagecreatetruecolor(1600, 1000);
+    ob_start();
+    imagejpeg($im);
+    $up = api("POST", "/media", ["contentBase64" => base64_encode(ob_get_clean())], $owner, [], [], "203.0.113.20");
+    $p = api("POST", "/properties", sample(["title" => 'Casa "linda" <b>con</b> vista', "currency" => "CLP", "price" => 105000000, "images" => [$up->data["url"]], "details" => []]), $owner);
+    eq($p->status, 201);
+    $page = $app->handle(new Request("GET", "/api/v1/public/share/" . $p->data["id"]));
+    eq($page->status, 200);
+    eq($page->headers["Content-Type"], "text/html; charset=utf-8");
+    check(str_contains($page->raw, 'og:title" content="Casa &quot;linda&quot; &lt;b&gt;con&lt;/b&gt; vista"'), "Título escapado en og:title");
+    check(!str_contains($page->raw, "<b>con</b>"), "No debe haber HTML sin escapar");
+    check(str_contains($page->raw, '$105.000.000 · Casa en venta · Viña del Mar · 80 m² · 2 dorm. · 1 baño'), "Descripción con precio y datos");
+    check(str_contains($page->raw, $up->data["url"] . '?size=share"'), "og:image apunta a la foto JPEG");
+    check(str_contains($page->raw, "#propiedad/" . $p->data["id"]), "Redirige a la ficha");
+    $jpeg = $app->handle(new Request("GET", "/api/v1/public/media/" . $up->data["id"], [], ["size" => "share"]));
+    eq($jpeg->headers["Content-Type"], "image/jpeg");
+    eq(getimagesizefromstring($jpeg->raw)[0], 1200);
+    api("PUT", "/properties/" . $p->data["id"], ["status" => "Pausada", "version" => 1] + sample(["images" => [$up->data["url"]]]), $owner);
+    $gone = $app->handle(new Request("GET", "/api/v1/public/share/" . $p->data["id"]));
+    check(str_contains($gone->raw, "og-image.jpg") && !str_contains($gone->raw, "linda"), "Aviso pausado: vista previa genérica");
+});
 echo "\n$passed pruebas correctas; $failed fallidas. Driver: ",
     $config["driver"],
     "\n";
