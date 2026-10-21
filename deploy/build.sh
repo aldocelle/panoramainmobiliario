@@ -78,9 +78,17 @@ unset DB_PASS
     echo "INSERT INTO schema_migrations VALUES('$(basename "$f")','$(date -u +%Y-%m-%dT%H:%M:%SZ)');"
   done
 } > "$SQL/install.sql"
+# Actualizaciones sin SSH: un archivo por migración, para importar en phpMyAdmin solo las que falten.
+mkdir -p "$SQL/updates"
+for f in "$ROOT"/backend/database/migrations/*.sql; do
+  { echo "-- Actualización $(basename "$f"): importar UNA vez en phpMyAdmin si aún no está en schema_migrations, ANTES de subir el código."
+    cat "$f"; echo
+    echo "INSERT INTO schema_migrations VALUES('$(basename "$f")','$(date -u +%Y-%m-%dT%H:%M:%SZ)');"; } > "$SQL/updates/$(basename "$f")"
+done
 
 echo
 echo "Listo:"
 echo "  build/panorama/      → contenido de /panorama ($(find "$OUT" -type f | wc -l | tr -d ' ') archivos)"
 echo "  build/sql/install.sql → esquema para phpMyAdmin (solo si no hay SSH)"
+echo "  build/sql/updates/     → una migración por archivo, para actualizar sin SSH"
 echo "No subas build/sql al servidor."

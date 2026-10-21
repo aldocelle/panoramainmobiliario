@@ -9,7 +9,7 @@ import {prepareImage} from '../lib/image'
 import {thumbUrl} from '../lib/domain'
 const emit=defineEmits(['saved','notify'])
 const form=ref(null),loadError=ref(''),errors=ref(''),busy=ref(''),saved=ref(false),zone=ref('')
-onMounted(async()=>{try{form.value=await api.profile()}catch(e){loadError.value=e instanceof PanoramaApiError?e.message:'No se pudo cargar tu página.'}})
+onMounted(async()=>{try{form.value=await api.profile()}catch(e){loadError.value=e.status===404?'Tu página pública estará disponible cuando se actualice el servidor de Panorama.':e instanceof PanoramaApiError?e.message:'No se pudo cargar tu página.'}})
 const officeCommunes=computed(()=>form.value?.officeRegion?communesOf(form.value.officeRegion):communes)
 const pageUrl=computed(()=>form.value?new URL(`#corredora/${form.value.slug}`,location.href).href:'')
 const shareUrl=computed(()=>form.value?new URL(`api/v1/public/broker-share/${form.value.slug}`,location.href).href:'')
