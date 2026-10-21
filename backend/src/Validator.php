@@ -27,7 +27,11 @@ final class Validator
         "Terreno",
         "Oficina",
         "Local comercial",
+        "Parcela",
+        "Bodega",
     ];
+    public const FURNISHED = ["Sin amoblar", "Semiamoblado", "Amoblado"];
+    public const PETS = ["Sí", "No", "Consultar"];
     public const STATUSES = [
         "Borrador",
         "Publicada",
@@ -204,6 +208,7 @@ final class Validator
                     "description",
                     "images",
                     "status",
+                    "details",
                 ],
                 $update ? ["version"] : [],
             ),
@@ -247,11 +252,69 @@ final class Validator
             "description" => self::string($d, "description", 0, 6000, ""),
             "images_json" => Support::json($images),
             "status" => self::enum($d, "status", self::STATUSES, "Borrador"),
+            "details_json" => self::details($d),
         ];
         if ($update) {
             $out["version"] = self::version($d);
         }
         return $out;
+    }
+    /** Características opcionales de la ficha; null o ausente equivale a "sin dato". */
+    public static function details(array $d): string
+    {
+        $in = $d["details"] ?? [];
+        ApiError::require(
+            is_array($in) && ($in === [] || !array_is_list($in)),
+            422,
+            "VALIDATION_ERROR",
+            "details inválido.",
+        );
+        self::keys($in, [
+            "parking",
+            "storage",
+            "usefulArea",
+            "terraceArea",
+            "commonExpenses",
+            "floor",
+            "yearBuilt",
+            "furnished",
+            "pets",
+            "amenities",
+        ]);
+        $numbers = [
+            "parking" => [0, 99, true],
+            "storage" => [0, 99, true],
+            "usefulArea" => [0.01, 1e9, false],
+            "terraceArea" => [0.01, 1e9, false],
+            "commonExpenses" => [0, 1e10, true],
+            "floor" => [-10, 300, true],
+            "yearBuilt" => [1800, (int) gmdate("Y") + 5, true],
+        ];
+        $out = [];
+        foreach ($numbers as $key => [$min, $max, $integer]) {
+            if (isset($in[$key])) {
+                $out[$key] = self::number($in, $key, $min, $max, $integer);
+            }
+        }
+        foreach (["furnished" => self::FURNISHED, "pets" => self::PETS] as $key => $values) {
+            if (isset($in[$key])) {
+                $out[$key] = self::enum($in, $key, $values);
+            }
+        }
+        if (isset($in["amenities"])) {
+            $out["amenities"] = array_values(
+                array_unique(
+                    self::list(
+                        $in,
+                        "amenities",
+                        0,
+                        40,
+                        fn($v) => self::string(["amenity" => $v], "amenity", 1, 80),
+                    ),
+                ),
+            );
+        }
+        return Support::json($out);
     }
     public static function instant(array $d, string $key): int
     {

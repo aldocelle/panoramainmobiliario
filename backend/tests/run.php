@@ -148,7 +148,7 @@ test("migraciones idempotentes e integridad referencial", function () use (
     $db->migrate();
     eq(
         (int) $db->one("SELECT COUNT(*) total FROM schema_migrations")["total"],
-        2,
+        count(glob(__DIR__ . "/../database/migrations/*.sql")),
     );
     try {
         $db->run("INSERT INTO memberships VALUES(?,?,?,?)", [
@@ -1133,6 +1133,49 @@ test(
         eq(api("GET", "/auth/session", [], $fresh)->status, 401);
     },
 );
+test("características opcionales se validan y conservan", function () use (
+    $a,
+) {
+    $details = [
+        "parking" => 1,
+        "storage" => 1,
+        "usefulArea" => 104,
+        "commonExpenses" => 240000,
+        "floor" => 11,
+        "yearBuilt" => 1999,
+        "furnished" => "Sin amoblar",
+        "pets" => "Consultar",
+        "amenities" => ["Piscina", "Quincho", "Piscina"],
+    ];
+    $r = api(
+        "POST",
+        "/properties",
+        sample(["type" => "Parcela", "status" => "Borrador", "details" => $details]),
+        $a,
+    );
+    eq($r->status, 201);
+    $saved = json_decode(json_encode($r->data["details"]), true);
+    eq($saved["amenities"], ["Piscina", "Quincho"]);
+    eq($saved["commonExpenses"], 240000);
+    eq(json_encode(api("POST", "/properties", sample(["status" => "Borrador"]), $a)->data["details"]), "{}");
+    foreach (
+        [
+            ["parking" => -1],
+            ["floor" => 1.5],
+            ["pets" => "Quizás"],
+            ["sauna" => true],
+            ["amenities" => [str_repeat("x", 81)]],
+            ["yearBuilt" => 1700],
+        ]
+        as $bad
+    ) {
+        eq(
+            api("POST", "/properties", sample(["status" => "Borrador", "details" => $bad]), $a)->status,
+            422,
+        );
+    }
+    eq(api("POST", "/properties", sample(["status" => "Borrador", "details" => [1, 2]]), $a)->status, 422);
+});
 echo "\n$passed pruebas correctas; $failed fallidas. Driver: ",
     $config["driver"],
     "\n";

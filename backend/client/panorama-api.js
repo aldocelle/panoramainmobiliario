@@ -35,6 +35,7 @@ export class PanoramaApi {
   session() { return this.request('GET', '/auth/session') }
   login(email, password) { return this.request('POST', '/auth/login', { email, password }) }
   async logout() { await this.request('POST', '/auth/logout', {}); this.csrf = null }
+  subscription() { return this.request('GET', '/workspace/subscription') }
   properties(query = {}, isPublic = false) { return this.request('GET', `${isPublic ? '/public' : ''}/properties`, undefined, { query }) }
   saveProperty(property) {
     const { id, brand, createdAt, updatedAt, ...body } = property

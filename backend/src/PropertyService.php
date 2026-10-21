@@ -35,6 +35,7 @@ final class PropertyService
             "description" => $p["description"],
             "images" => json_decode($p["images_json"], true),
             "status" => $p["status"],
+            "details" => (object) (json_decode($p["details_json"] ?? "{}", true) ?: []),
             "version" => (int) $p["version"],
             "createdAt" => $p["created_at"],
             "updatedAt" => $p["updated_at"],

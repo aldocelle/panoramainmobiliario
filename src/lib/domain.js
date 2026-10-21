@@ -10,8 +10,29 @@ export function validateProperty(p) {
  if (!p.region || !p.commune?.trim()) errors.push('Selecciona una región y escribe la comuna.')
  if (!Number.isFinite(Number(p.price)) || Number(p.price) <= 0) errors.push('El precio debe ser mayor a cero.')
  if (!Number.isFinite(Number(p.area)) || Number(p.area) <= 0) errors.push('La superficie debe ser mayor a cero.')
- if (p.image && !/^https:\/\//i.test(p.image)) errors.push('La fotografía debe usar una dirección HTTPS.')
+ if ([p.image,...(p.images||[])].filter(Boolean).some(u => !/^https:\/\//i.test(u) && !isMediaPath(u))) errors.push('Las fotografías deben usar una dirección HTTPS o subirse desde tu equipo.')
  return errors
+}
+export const propertyTypes = ['Departamento','Casa','Terreno','Oficina','Local comercial','Parcela','Bodega']
+export const isMediaPath = url => /^\/api\/v1\/public\/media\/[0-9a-f-]{36}$/i.test(url)
+// Características opcionales: se envían solo las que tienen dato.
+const detailKeys = ['parking','storage','usefulArea','terraceArea','commonExpenses','floor','yearBuilt','furnished','pets']
+export function cleanDetails(d = {}) {
+ const out = {}
+ for (const k of detailKeys) if (d[k] !== '' && d[k] != null) out[k] = ['furnished','pets'].includes(k) ? d[k] : Number(d[k])
+ const amenities = (d.amenities || []).map(a => String(a).trim()).filter(Boolean)
+ if (amenities.length) out.amenities = amenities
+ return out
+}
+export function describeDetails(d = {}) {
+ const n = v => Number(v).toLocaleString('es-CL')
+ return [
+  d.usefulArea && `Superficie útil ${n(d.usefulArea)} m²`, d.terraceArea && `Terraza ${n(d.terraceArea)} m²`,
+  d.parking != null && `${d.parking} ${d.parking === 1 ? 'estacionamiento' : 'estacionamientos'}`, d.storage != null && `${d.storage} ${d.storage === 1 ? 'bodega' : 'bodegas'}`,
+  d.floor != null && `Piso ${d.floor}`, d.yearBuilt && `Construcción ${d.yearBuilt}`,
+  d.commonExpenses && `Gastos comunes $${n(d.commonExpenses)}`, d.furnished, d.pets && `Mascotas: ${d.pets}`,
+  ...(d.amenities || []),
+ ].filter(Boolean)
 }
 export const formatPrice = p => p.currency === 'UF' ? `UF ${Number(p.price).toLocaleString('es-CL',{maximumFractionDigits:2})}` : new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(p.price)
 export function hydrate(raw, fallback) {
@@ -24,4 +45,15 @@ export function createId() {
  const bytes = new Uint8Array(16)
  globalThis.crypto.getRandomValues(bytes)
  return Array.from(bytes,b=>b.toString(16).padStart(2,'0')).join('')
+}
+
+// Traducción entre el formato de la API (images[], privateAddress) y el de las vistas (image, address).
+export function fromApi(p) {
+ const { images = [], privateAddress = '', ...rest } = p
+ return { ...rest, details: { ...(rest.details || {}) }, image: images[0] || '', images, address: privateAddress }
+}
+export function toApi(p) {
+ const body = { title: p.title, type: p.type, operation: p.operation, currency: p.currency, price: Number(p.price), region: p.region, commune: p.commune, sector: p.sector || '', privateAddress: p.address || '', area: Number(p.area), beds: Number(p.beds), baths: Number(p.baths), description: p.description || '', images: (p.images?.length ? p.images : [p.image]).filter(Boolean), status: p.status, details: cleanDetails(p.details) }
+ if (p.id) Object.assign(body, { id: p.id, version: p.version })
+ return body
 }
