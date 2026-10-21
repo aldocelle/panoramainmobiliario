@@ -1,5 +1,5 @@
 // Catálogo de regiones. Códigos territoriales almacenados como texto.
-// La comuna se ingresa manualmente hasta validar e importar el catálogo nacional.
+// Comunas: catálogo nacional con CUT en src/data/communes.json (ver docs/TERRITORIO.md).
 export const regions = [
  ['15','Arica y Parinacota'],['01','Tarapacá'],['02','Antofagasta'],['03','Atacama'],
  ['04','Coquimbo'],['05','Valparaíso'],['13','Metropolitana de Santiago'],

@@ -12,6 +12,7 @@ import {getPlan,defaultPlanId,activeCount,canSelectPlan} from './data/plans'
 import PropertyCard from './components/PropertyCard.vue'
 import PlaceSearch from './components/PlaceSearch.vue'
 import {buildPlaces,placeText,matchesPlace} from './lib/places'
+import {communes} from './lib/communes'
 import PropertyForm from './components/PropertyForm.vue'
 import {regions} from './data/regions'
 import {seed} from './data/demo'
@@ -65,7 +66,7 @@ const filtered=computed(()=>filterProperties(isPublic.value?publicList.value:por
 const brokerFilter=ref('')
 // Lugar elegido desde las sugerencias; se descarta apenas el texto del buscador deja de coincidir.
 const place=ref(null)
-const places=computed(()=>buildPlaces(publicList.value,regions))
+const places=computed(()=>buildPlaces(publicList.value,regions,communes))
 watch(query,v=>{if(place.value&&v!==placeText(place.value))place.value=null})
 function scrollToResults(){nextTick(()=>document.getElementById('results')?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'}))}
 function pickPlace(p){if(p.kind==='region'){region.value=p.region;query.value=''}else{query.value=placeText(p);place.value=p}scrollToResults()}

@@ -1,6 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 import {buildPlaces,suggestPlaces,placeText,matchesPlace} from '../src/lib/places.js'
+import {communes,communesOf,findCommune} from '../src/lib/communes.js'
 const regions=[{id:'05',name:'Valparaíso'},{id:'13',name:'Metropolitana de Santiago'}]
 const props=[
  {status:'Publicada',commune:'Viña del Mar',sector:'Reñaca',region:'05'},
@@ -11,3 +12,6 @@ const places=buildPlaces(props,regions)
 test('solo sugiere lugares con avisos publicados y cuenta los reales',()=>{assert.equal(places.find(p=>p.label==='Viña del Mar').count,2);assert.equal(places.find(p=>p.label==='Reñaca').count,1);assert.equal(places.some(p=>p.label==='Pudahuel'),false)})
 test('tolera tildes, prioriza comuna sobre sector y región, y exige dos letras',()=>{assert.deepEqual(suggestPlaces(places,'vina').map(p=>p.label),['Viña del Mar']);assert.deepEqual(suggestPlaces(places,'valpa').map(p=>p.kind),['commune','region']);assert.deepEqual(suggestPlaces(places,'v'),[]);assert.deepEqual(suggestPlaces(places,'alegre').map(p=>p.label),['Cerro Alegre'])})
 test('el filtro por lugar distingue comuna, sector y región',()=>{const sector=places.find(p=>p.label==='Reñaca');assert.equal(placeText(sector),'Reñaca, Viña del Mar');assert.equal(matchesPlace(props[0],sector),true);assert.equal(matchesPlace(props[1],sector),false);assert.equal(matchesPlace(props[1],places.find(p=>p.label==='Viña del Mar')),true);assert.equal(matchesPlace(props[3],places.find(p=>p.kind==='region'&&p.region==='13')),true);assert.equal(matchesPlace(props[0],null),true)})
+test('catálogo oficial: 346 comunas, 16 regiones y 56 provincias con códigos únicos',()=>{assert.equal(communes.length,346);assert.equal(new Set(communes.map(c=>c.code)).size,346);assert.equal(new Set(communes.map(c=>c.region)).size,16);assert.equal(new Set(communes.map(c=>c.province)).size,56);assert.equal(communesOf('16').length,21);assert.equal(communesOf('13').length,52);assert.ok(communes.every(c=>/^\d{5}$/.test(c.code)&&c.code.startsWith(c.region)))})
+test('busca comunas del catálogo tolerando espacios, tildes y región',()=>{assert.equal(findCommune('Tiltil').code,'13303');assert.equal(findCommune('vina del mar','05').code,'05109');assert.equal(findCommune('Viña del Mar','13'),null);assert.equal(findCommune(''),null)})
+test('con catálogo sugiere comunas sin avisos después de las que tienen oferta',()=>{const all=buildPlaces(props,regions,communes.filter(c=>['05','13'].includes(c.region)));const pud=suggestPlaces(all,'pudah');assert.equal(pud[0].label,'Pudahuel');assert.equal(pud[0].count,0);assert.equal(all.filter(p=>p.label==='Viña del Mar').length,1);const vi=suggestPlaces(all,'vi');assert.equal(vi[0].label,'Viña del Mar');assert.ok(vi.findIndex(p=>p.count===0)>vi.findIndex(p=>p.label==='Viña del Mar'))})

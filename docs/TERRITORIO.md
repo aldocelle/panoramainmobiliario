@@ -2,7 +2,13 @@
 
 ## Estado
 
-El frontend permite seleccionar las 16 regiones. Comuna, sector/localidad y dirección son campos independientes. La dirección privada no se presenta en la ficha pública. El catálogo comunal completo todavía no está integrado.
+El frontend permite seleccionar las 16 regiones. Comuna, sector/localidad y dirección son campos independientes. La dirección privada no se presenta en la ficha pública.
+
+Desde el 21 de octubre de 2026 el catálogo comunal está integrado en `src/data/communes.json` (346 comunas con CUT, provincia y región; 56 provincias, 16 regiones, 21 comunas de Ñuble). Fuente: tabla de [Anexo:Comunas de Chile](https://es.wikipedia.org/wiki/Anexo:Comunas_de_Chile), contrastada con la codificación del [Decreto 1115/2018](https://www.sinim.gov.cl/download/DTO-1115-SEPT_2018.pdf). Las pruebas en `tests/places.test.js` verifican conteos y unicidad de códigos.
+
+- Buscador público: sugiere primero comunas y sectores con avisos publicados (con su conteo real); el resto de las comunas aparece como «Sin avisos aún», nunca con conteos inventados.
+- Formulario de publicación: lista de comunas de la región elegida y aviso suave si la comuna no coincide con el catálogo (no bloquea el guardado).
+- Pendiente: llevar el catálogo a la base de datos y validar región/comuna en el servidor; reemplazar la fuente por el archivo oficial de SUBDERE cuando esté disponible en formato descargable.
 
 ## Fuentes compartidas
 
