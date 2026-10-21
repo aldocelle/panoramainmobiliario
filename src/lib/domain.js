@@ -16,6 +16,8 @@ export function validateProperty(p) {
 export const propertyTypes = ['Departamento','Casa','Terreno','Oficina','Local comercial','Parcela','Bodega']
 // Igual que el validador del backend: el prefijo de la API cambia según dónde se instale.
 export const isMediaPath = url => /^\/[A-Za-z0-9/_-]+\/public\/media\/[0-9a-f-]{36}$/i.test(url)
+// Miniatura de 640 px para tarjetas y galerías; las URL externas se usan tal cual.
+export const thumbUrl = url => isMediaPath(url) ? `${url}?size=thumb` : url
 // Características opcionales: se envían solo las que tienen dato.
 const detailKeys = ['parking','storage','usefulArea','terraceArea','commonExpenses','floor','yearBuilt','furnished','pets']
 export function cleanDetails(d = {}) {

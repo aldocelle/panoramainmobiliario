@@ -59,3 +59,7 @@ El script pide la contraseña en la terminal, muestra el contenido actual de `/p
 ## Actualizaciones
 
 Vuelve a ejecutar `deploy/build.sh` y `deploy/upload.sh`. Los archivos nuevos o cambiados se sobrescriben; las fotos de `app/var/media` no se tocan. Si hay migraciones nuevas en `backend/database/migrations/`, aplícalas antes de subir el código: con SSH `php bin/migrate.php`; sin SSH importa ese archivo en phpMyAdmin y agrega su fila en `schema_migrations`.
+
+## Imágenes
+
+Toda foto se optimiza dos veces: en el navegador antes de subirla (lado mayor ≤ 2560 px, WebP) y en el servidor (orientación de cámara, lado mayor ≤ 1920 px, WebP calidad 78 y miniatura de 640 px). Las fotos públicas se sirven con caché de un año porque cada id es inmutable. Si se cambian esos tamaños o se migran fotos antiguas, ejecuta `php bin/optimize-media.php` en `app/` (con SSH): genera las miniaturas que falten y solo reemplaza una foto si la nueva pesa menos.

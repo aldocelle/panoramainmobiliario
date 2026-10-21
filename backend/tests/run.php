@@ -965,7 +965,6 @@ test(
         ob_start();
         imagepng($im);
         $png = ob_get_clean();
-        imagedestroy($im);
         $r = api(
             "POST",
             "/media",
@@ -1220,6 +1219,31 @@ test("superadmin: sesión aislada, CSRF, cupos y auditoría", function () use (
     eq(api("POST", "/auth/login", ["email" => "nueva@example.com", "password" => "Strong password 123!"])->status, 200);
     eq($platform("POST", "/auth/logout", [], $s)->status, 204);
     eq($platform("GET", "/organizations", [], $s)->status, 401);
+});
+test("fotos se optimizan: 1920 px, miniatura y caché pública", function () use ($app, $config) {
+    $owner = register("fotos@example.com");
+    $im = imagecreatetruecolor(3000, 2000);
+    for ($x = 0; $x < 3000; $x += 50) {
+        imagefilledrectangle($im, $x, 0, $x + 25, 2000, imagecolorallocate($im, $x % 255, 120, 200));
+    }
+    ob_start();
+    imagejpeg($im, null, 92);
+    $jpeg = ob_get_clean();
+    $up = api("POST", "/media", ["contentBase64" => base64_encode($jpeg)], $owner, [], [], "203.0.113.9");
+    eq($up->status, 201);
+    eq([$up->data["width"], $up->data["height"]], [1920, 1280]);
+    check($up->data["bytes"] < strlen($jpeg), "La foto optimizada debe pesar menos que el original");
+    $id = $up->data["id"];
+    $thumb = $config["mediaPath"] . "/" . $id . "-thumb.webp";
+    check(is_file($thumb), "Debe existir la miniatura");
+    eq(getimagesize($thumb)[0], 640);
+    $private = api("GET", "/media/" . $id, [], $owner);
+    eq($private->headers["Cache-Control"], "private, no-store");
+    eq(api("POST", "/properties", sample(["images" => [$up->data["url"]], "status" => "Publicada"]), $owner)->status, 201);
+    $full = $app->handle(new Request("GET", "/api/v1/public/media/" . $id));
+    $small = $app->handle(new Request("GET", "/api/v1/public/media/" . $id, [], ["size" => "thumb"]));
+    eq($full->headers["Cache-Control"], "public, max-age=31536000, immutable");
+    check(strlen($small->raw) < strlen($full->raw), "La miniatura debe pesar menos");
 });
 echo "\n$passed pruebas correctas; $failed fallidas. Driver: ",
     $config["driver"],

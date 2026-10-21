@@ -412,7 +412,8 @@ final class Application
                 ) {
                     array_shift($matches);
                     $response = $handler($r, ...$matches);
-                    $response->headers = $headers + $response->headers;
+                    // Las cabeceras del handler mandan (p. ej. caché de fotos públicas); el resto viene de la base.
+                    $response->headers = $response->headers + $headers;
                     return $response;
                 }
             }

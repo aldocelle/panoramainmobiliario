@@ -54,6 +54,9 @@ final class MediaService
             "INVALID_IMAGE",
             "No se pudo decodificar la imagen.",
         );
+        if ($mime === "image/jpeg") {
+            $image = self::orient($image, $bytes);
+        }
         $folder = $this->config["mediaPath"];
         if (!is_dir($folder)) {
             mkdir($folder, 0700, true);
@@ -61,15 +64,16 @@ final class MediaService
         $id = Support::uuid();
         $name = $id . ".webp";
         $path = $folder . "/" . $name;
+        $thumb = $folder . "/" . $id . "-thumb.webp";
         // Re-encode rather than storing arbitrary original bytes or SVG content.
         try {
             ApiError::require(
-                imagewebp($image, $path, 85),
+                self::writeOptimized($image, $path, $thumb),
                 500,
                 "MEDIA_WRITE_FAILED",
                 "No se pudo guardar la imagen.",
             );
-            chmod($path, 0600);
+            $size = getimagesize($path);
             $length = filesize($path);
             ApiError::require(
                 $length !== false && $length <= 5242880,
@@ -109,12 +113,12 @@ final class MediaService
                 Support::audit($this->db, $r, "media.uploaded", "media", $id);
             });
         } catch (\Throwable $e) {
-            if (is_file($path)) {
-                unlink($path);
+            foreach ([$path, $thumb] as $file) {
+                if (is_file($file)) {
+                    unlink($file);
+                }
             }
             throw $e;
-        } finally {
-            imagedestroy($image);
         }
         return new Response(
             [
@@ -127,6 +131,53 @@ final class MediaService
             ],
             201,
         );
+    }
+    // Tamaños de entrega: la foto completa para la ficha y una miniatura para tarjetas y galerías.
+    public const MAX_SIDE = 1920;
+    public const THUMB_SIDE = 640;
+    public const QUALITY = 78;
+    public const THUMB_QUALITY = 72;
+    /** Aplica la orientación EXIF de la cámara, que se pierde al recodificar. */
+    public static function orient(\GdImage $image, string $jpeg): \GdImage
+    {
+        if (!function_exists("exif_read_data")) {
+            return $image;
+        }
+        $exif = @exif_read_data("data://image/jpeg;base64," . base64_encode($jpeg));
+        $o = (int) ($exif["Orientation"] ?? 1);
+        if (in_array($o, [2, 4, 5, 7], true)) {
+            imageflip($image, IMG_FLIP_HORIZONTAL);
+        }
+        $angle = [3 => 180, 4 => 180, 5 => 270, 6 => 270, 7 => 90, 8 => 90][$o] ?? 0;
+        return $angle ? (imagerotate($image, $angle, 0) ?: $image) : $image;
+    }
+    private static function scale(\GdImage $image, int $max): \GdImage
+    {
+        $w = imagesx($image);
+        $h = imagesy($image);
+        if (max($w, $h) <= $max) {
+            return $image;
+        }
+        $ratio = $max / max($w, $h);
+        $out = imagecreatetruecolor(max(1, (int) round($w * $ratio)), max(1, (int) round($h * $ratio)));
+        imagealphablending($out, false);
+        imagesavealpha($out, true);
+        imagecopyresampled($out, $image, 0, 0, 0, 0, imagesx($out), imagesy($out), $w, $h);
+        return $out;
+    }
+    /** Escribe la foto (lado mayor ≤ 1920 px) y su miniatura (≤ 640 px) en WebP. */
+    public static function writeOptimized(\GdImage $image, string $path, string $thumb): bool
+    {
+        imagepalettetotruecolor($image);
+        imagesavealpha($image, true);
+        $ok = imagewebp(self::scale($image, self::MAX_SIDE), $path, self::QUALITY) &&
+            imagewebp(self::scale($image, self::THUMB_SIDE), $thumb, self::THUMB_QUALITY);
+        foreach ([$path, $thumb] as $file) {
+            if (is_file($file)) {
+                chmod($file, 0600);
+            }
+        }
+        return $ok;
     }
     public function serve(
         Request $r,
@@ -157,6 +208,10 @@ final class MediaService
             );
         }
         $path = $this->config["mediaPath"] . "/" . $media["storage_name"];
+        $thumb = preg_replace('/\.webp$/', "-thumb.webp", $path);
+        if (($r->query["size"] ?? "") === "thumb" && is_file($thumb)) {
+            $path = $thumb;
+        }
         ApiError::require(
             is_file($path),
             404,
@@ -169,6 +224,8 @@ final class MediaService
             [
                 "Content-Type" => "image/webp",
                 "Content-Disposition" => 'inline; filename="' . $id . '.webp"',
+                // Cada id es inmutable: la foto pública se puede guardar en caché por un año.
+                "Cache-Control" => $public ? "public, max-age=31536000, immutable" : "private, no-store",
             ],
             null,
             file_get_contents($path),
@@ -201,8 +258,10 @@ final class MediaService
             $path = $this->config["mediaPath"] . "/" . $m["storage_name"];
             Support::audit($this->db, $r, "media.deleted", "media", $id);
         });
-        if ($path && is_file($path)) {
-            unlink($path);
+        foreach ($path ? [$path, preg_replace('/\.webp$/', "-thumb.webp", $path)] : [] as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
         }
         return new Response(null, 204);
     }
