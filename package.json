@@ -1,0 +1,31 @@
+{
+  "name": "panoramainmobiliario",
+  "version": "1.0.0",
+  "description": "Portal inmobiliario nacional y espacio de trabajo para corredores de propiedades",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aldocelle/panoramainmobiliario.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/aldocelle/panoramainmobiliario/issues"
+  },
+  "homepage": "https://github.com/aldocelle/panoramainmobiliario#readme",
+  "dependencies": {
+    "vue": "^3.5.44"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "vite": "^8.3.5"
+  },
+  "private": true
+}
