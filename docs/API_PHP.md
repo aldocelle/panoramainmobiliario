@@ -112,3 +112,17 @@ Base `/api/v1`. Todas las escrituras aceptan un objeto JSON y `Content-Type: app
 `{ "error": { "code": "PUBLICATION_LIMIT", "message": "...", "details": [], "requestId": "UUID" } }`. `details` es opcional. 400 JSON/token inválido, 401 sesión ausente, 403 permisos/CSRF/origen, 404 recurso no accesible, 409 conflicto/cupo/versión, 413 carga grande, 415 formato, 422 validación, 429 límite, 503 configuración/servicio no disponible. Los errores internos no muestran SQL ni stack.
 
 Se aplican contadores persistentes por IP (identificador HMAC), grupos de autenticación, escrituras públicas y carga de imágenes. Un 429 incluye Retry-After conservador. No reemplaza protección DDoS del proveedor. No registrar cuerpos ni tokens en herramientas de monitoreo.
+
+## Superadmin de plataforma
+
+Identidad y sesión propias (tablas `platform_admins` y `platform_sessions`, cookie `panorama_platform` limitada a `{prefijo}/platform`, `SameSite=Strict`, máximo 8 horas). Una sesión de corredora no autentica estas rutas y una de plataforma no opera carteras. Los superadmins se crean solo por terminal (`bin/create-platform-admin.php`) o SQL (`deploy/superadmin-sql.sh`); no hay ruta HTTP para crearlos. Login limitado a 5 intentos cada 15 minutos por IP.
+
+| Método | Ruta | Descripción |
+| --- | --- | --- |
+| POST | `/platform/auth/login` | `email`, `password`; devuelve `csrfToken` |
+| GET | `/platform/auth/session` | Sesión vigente y `csrfToken` |
+| POST | `/platform/auth/logout` | Cierra la sesión |
+| GET | `/platform/organizations` | Cuentas con suscripción, avisos, consultas y miembros |
+| POST | `/platform/organizations` | Crea cuenta: `name`, `email`, `password`, `organizationName`, `kind` |
+| PUT | `/platform/organizations/{id}/subscription` | `limit`, `status` (`pilot`, `active`, `suspended`, `expired`), `reason`; 409 si el límite queda bajo lo publicado |
+| GET | `/platform/organizations/{id}/changes` | Últimos 50 cambios administrativos con su autor |

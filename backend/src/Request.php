@@ -4,6 +4,8 @@ namespace Panorama;
 final class Request
 {
     public ?array $auth = null;
+    /** Sesión de superadmin de plataforma; independiente de $auth (corredoras). */
+    public ?array $platform = null;
     public readonly string $id;
     public function __construct(
         public readonly string $method,

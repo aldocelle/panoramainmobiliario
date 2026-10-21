@@ -5,6 +5,7 @@ final class Application
 {
     private Auth $auth;
     private RateLimiter $limiter;
+    private PlatformService $platform;
     private array $routes = [];
     public function __construct(private Database $db, private array $config)
     {
@@ -18,6 +19,22 @@ final class Application
         $recovery = new RecoveryService($db, $config);
         $media = new MediaService($db, $this->auth, $config);
         $favorites = new FavoriteService($db, $this->auth);
+        $this->platform = $platform = new PlatformService($db, $this->auth, $config);
+        $this->route("POST", "/platform/auth/login", fn($r) => $platform->login($r));
+        $this->route("GET", "/platform/auth/session", fn($r) => $platform->session($r));
+        $this->route("POST", "/platform/auth/logout", fn($r) => $platform->logout($r));
+        $this->route("GET", "/platform/organizations", fn($r) => $platform->organizations($r));
+        $this->route("POST", "/platform/organizations", fn($r) => $platform->createOrganization($r));
+        $this->route(
+            "PUT",
+            "/platform/organizations/{id}/subscription",
+            fn($r, $id) => $platform->capacity($r, $id),
+        );
+        $this->route(
+            "GET",
+            "/platform/organizations/{id}/changes",
+            fn($r, $id) => $platform->changes($r, $id),
+        );
         $this->route(
             "GET",
             "/health",
@@ -345,8 +362,15 @@ final class Application
                     ],
                 );
             }
-            $this->auth->attach($r);
-            $this->auth->csrf($r);
+            // /platform usa solo la sesión de superadmin: la cookie de corredora también llega
+            // a esas rutas (comparten prefijo) y no debe autenticar ni exigir su CSRF ahí.
+            if (str_starts_with($r->path, $this->config["prefix"] . "/platform/")) {
+                $this->platform->attach($r);
+                $this->platform->csrf($r);
+            } else {
+                $this->auth->attach($r);
+                $this->auth->csrf($r);
+            }
             if ($r->path !== $this->config["prefix"] . "/health") {
                 $this->limiter->hit($r, "all", 300, 60);
                 if (
@@ -362,6 +386,11 @@ final class Application
                     )
                 ) {
                     $this->limiter->hit($r, "auth", 15);
+                }
+                if (
+                    $r->path === $this->config["prefix"] . "/platform/auth/login"
+                ) {
+                    $this->limiter->hit($r, "platform-login", 5);
                 }
                 if (
                     $r->method === "POST" &&

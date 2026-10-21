@@ -25,46 +25,15 @@ try {
     ]);
     $reason = Panorama\Validator::string($input, "reason", 5, 300);
     $db = new Panorama\Database(Panorama\Config::read());
-    $db->transaction(function () use ($db, $org, $limit, $status, $reason) {
-        $db->lockOrganization($org);
-        $before = $db->one(
-            "SELECT * FROM subscriptions WHERE organization_id=?",
-            [$org],
-        );
-        $used = (int) $db->one(
-            "SELECT COUNT(*) total FROM properties WHERE organization_id=? AND status='Publicada' AND deleted_at IS NULL",
-            [$org],
-        )["total"];
-        Panorama\ApiError::require(
-            $limit >= $used,
-            409,
-            "CAPACITY_TOO_SMALL",
-            "Pausa avisos antes de reducir el límite.",
-        );
-        $db->run(
-            "UPDATE subscriptions SET publication_limit=?,status=?,updated_at=? WHERE organization_id=?",
-            [$limit, $status, Panorama\Support::now(), $org],
-        );
-        $db->run("INSERT INTO administrative_changes VALUES(?,?,?,?,?,?,?,?)", [
-            Panorama\Support::uuid(),
-            $org,
-            $reason,
-            $before["publication_limit"],
-            $limit,
-            $before["status"],
-            $status,
-            Panorama\Support::now(),
-        ]);
-        $request = new Panorama\Request("CLI", "capacity");
-        Panorama\Support::audit(
-            $db,
-            $request,
-            "subscription.capacity_changed",
-            "organization",
-            $org,
-            $org,
-        );
-    });
+    Panorama\PlatformService::changeCapacity(
+        $db,
+        new Panorama\Request("CLI", "capacity"),
+        $org,
+        $limit,
+        $status,
+        $reason,
+        "cli",
+    );
     echo "Capacidad actualizada y motivo registrado.", PHP_EOL;
 } catch (Throwable $e) {
     fwrite(STDERR, $e->getMessage() . "\n");

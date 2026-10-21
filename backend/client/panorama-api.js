@@ -35,6 +35,14 @@ export class PanoramaApi {
   session() { return this.request('GET', '/auth/session') }
   login(email, password) { return this.request('POST', '/auth/login', { email, password }) }
   async logout() { await this.request('POST', '/auth/logout', {}); this.csrf = null }
+  // Superadmin de plataforma: usar una instancia separada del cliente (CSRF propio).
+  platformLogin(email, password) { return this.request('POST', '/platform/auth/login', { email, password }) }
+  platformSession() { return this.request('GET', '/platform/auth/session') }
+  async platformLogout() { await this.request('POST', '/platform/auth/logout', {}); this.csrf = null }
+  platformOrganizations() { return this.request('GET', '/platform/organizations') }
+  platformCreateOrganization(account) { return this.request('POST', '/platform/organizations', account) }
+  platformCapacity(id, { limit, status, reason }) { return this.request('PUT', `/platform/organizations/${encodeURIComponent(id)}/subscription`, { limit, status, reason }) }
+  platformChanges(id) { return this.request('GET', `/platform/organizations/${encodeURIComponent(id)}/changes`) }
   publicConfig() { return this.request('GET', '/public/config') }
   inquire(propertyId, body) { return this.request('POST', `/public/properties/${encodeURIComponent(propertyId)}/inquiries`, { website: '', ...body }) }
   leads(query = {}) { return this.request('GET', '/leads', undefined, { query }) }

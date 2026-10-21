@@ -1176,6 +1176,51 @@ test("características opcionales se validan y conservan", function () use (
     }
     eq(api("POST", "/properties", sample(["status" => "Borrador", "details" => [1, 2]]), $a)->status, 422);
 });
+test("superadmin: sesión aislada, CSRF, cupos y auditoría", function () use (
+    $app,
+    $db,
+    $a,
+) {
+    $db->run("INSERT INTO platform_admins VALUES(?,?,?,?,?,?)", [
+        Support::uuid(),
+        "root@example.com",
+        "Superadmin",
+        password_hash("Platform password 123!", PASSWORD_DEFAULT),
+        1,
+        Support::now(),
+    ]);
+    $platform = function (string $method, string $path, array $body = [], ?array $s = null, bool $csrf = true) use ($app): Response {
+        $h = ["content-type" => "application/json", "origin" => "http://localhost:5173"];
+        if ($s && $csrf) {
+            $h["x-csrf-token"] = $s["csrf"];
+        }
+        return $app->handle(new Request($method, "/api/v1/platform" . $path, $h, [], $s ? ["panorama_platform" => $s["cookie"]] : [], $body, "198.51.100.7"));
+    };
+    eq($platform("POST", "/auth/login", ["email" => "root@example.com", "password" => "incorrecta"])->status, 401);
+    $login = $platform("POST", "/auth/login", ["email" => "root@example.com", "password" => "Platform password 123!"]);
+    eq($login->status, 200);
+    eq($login->cookie["options"]["path"], "/api/v1/platform");
+    $s = ["cookie" => $login->cookie["value"], "csrf" => $login->data["csrfToken"]];
+    // Una sesión de corredora no abre la plataforma, y la de plataforma no opera carteras.
+    eq(api("GET", "/platform/organizations", [], $a)->status, 401);
+    eq($app->handle(new Request("GET", "/api/v1/properties", [], [], ["panorama_platform" => $s["cookie"]]))->status, 401);
+    $list = $platform("GET", "/organizations", [], $s);
+    eq($list->status, 200);
+    $org = array_values(array_filter($list->data["items"], fn($o) => $o["id"] === $a["org"]))[0];
+    check($org["subscription"]["used"] >= 1, "Debe contar avisos publicados");
+    $body = ["limit" => 40, "status" => "active", "reason" => "Prueba de ajuste"];
+    eq($platform("PUT", "/organizations/" . $a["org"] . "/subscription", $body, $s, false)->status, 403);
+    eq($platform("PUT", "/organizations/" . $a["org"] . "/subscription", ["limit" => 0] + $body, $s)->status, 409);
+    eq($platform("PUT", "/organizations/" . $a["org"] . "/subscription", $body, $s)->status, 200);
+    eq(api("GET", "/workspace/subscription", [], $a)->data["limit"], 40);
+    $changes = $platform("GET", "/organizations/" . $a["org"] . "/changes", [], $s)->data["items"];
+    eq($changes[0]["actor"], "platform:root@example.com");
+    $created = $platform("POST", "/organizations", ["name" => "Nueva Admin", "email" => "nueva@example.com", "password" => "Strong password 123!", "organizationName" => "Corredora Nueva"], $s);
+    eq($created->status, 201);
+    eq(api("POST", "/auth/login", ["email" => "nueva@example.com", "password" => "Strong password 123!"])->status, 200);
+    eq($platform("POST", "/auth/logout", [], $s)->status, 204);
+    eq($platform("GET", "/organizations", [], $s)->status, 401);
+});
 echo "\n$passed pruebas correctas; $failed fallidas. Driver: ",
     $config["driver"],
     "\n";

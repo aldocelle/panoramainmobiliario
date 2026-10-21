@@ -35,10 +35,11 @@ deploy/build.sh                       # valida configuración, corre pruebas y a
 
 **Base de datos (una sola vez, base vacía):**
 
-- Con SSH: tras subir los archivos, `cd /panorama/app && php bin/migrate.php` y luego `php bin/create-account.php < cuenta.json`.
+- Con SSH: tras subir los archivos, `cd /panorama/app && php bin/migrate.php`, luego `php bin/create-platform-admin.php < admin.json` (superadmin) y `php bin/create-account.php < cuenta.json`.
 - Sin SSH (phpMyAdmin):
   1. Importa `build/sql/install.sql` en la base.
-  2. Ejecuta `deploy/first-account-sql.sh` en tu equipo (pide nombre, correo, corredora y contraseña) e importa `build/sql/first-account.sql`. Bórralo después; contiene el hash de la contraseña.
+  2. Ejecuta `deploy/superadmin-sql.sh` e importa `build/sql/superadmin.sql` (acceso a `/panorama/#superadmin`).
+  3. Ejecuta `deploy/first-account-sql.sh` en tu equipo (pide nombre, correo, corredora y contraseña) e importa `build/sql/first-account.sql`. Bórralo después; contiene el hash de la contraseña.
 
 **Subida por FTPS:**
 
