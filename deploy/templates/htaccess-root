@@ -3,6 +3,12 @@
 Options -Indexes
 DirectoryIndex index.html
 
+# app/ es privado: segunda defensa por si el hosting ignora app/.htaccess.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^app(/|$) - [F,L]
+</IfModule>
+
 # Archivos ocultos (.env, .git, etc.) nunca se sirven.
 <FilesMatch "^\.">
   <IfModule mod_authz_core.c>

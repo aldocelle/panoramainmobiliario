@@ -27,7 +27,7 @@ if [ -z "$DB_PASS" ]; then
   read -r -s -p "Contraseña de la base $(get DB_DATABASE): " DB_PASS; echo
   [ -n "$DB_PASS" ] || fail "la contraseña de la base no puede estar vacía."
 fi
-[[ "$(get ALLOWED_ORIGINS)" =~ ^https://[^/]+$ ]] || fail "ALLOWED_ORIGINS debe ser https://dominio, sin ruta ni barra final."
+[[ "$(get ALLOWED_ORIGINS)" =~ ^https://[^/,]+(,https://[^/,]+)*$ ]] || fail "ALLOWED_ORIGINS debe ser https://dominio (o varios separados por coma), sin ruta ni barra final."
 [[ "$(get API_PREFIX)" =~ ^(/[A-Za-z0-9_-]+)*/api/v1$ ]] || fail "API_PREFIX debe terminar en /api/v1 (p. ej. /panorama/api/v1)."
 [ "$(get COOKIE_SECURE)" = true ] || fail "COOKIE_SECURE debe ser true (HTTPS)."
 

@@ -1,5 +1,10 @@
 <?php
 declare(strict_types=1);
+// Solo terminal: si el servidor web llega a ejecutar este archivo, responde 404 sin hacer nada.
+if (PHP_SAPI !== "cli") {
+    http_response_code(404);
+    exit();
+}
 require dirname(__DIR__) . "/bootstrap.php";
 use Panorama\{Config, Database, RecoveryService, Support};
 // Run every minute from cron. Delivery is at least once; a crash after mail()

@@ -1,5 +1,10 @@
 <?php
 declare(strict_types=1);
+// Solo terminal: si el servidor web llega a ejecutar este archivo, responde 404 sin hacer nada.
+if (PHP_SAPI !== "cli") {
+    http_response_code(404);
+    exit();
+}
 require dirname(__DIR__) . "/bootstrap.php";
 // Restricted administrative command: loads a broker's existing portfolio.
 // Input JSON via stdin: {"organizationId","userId","listings":[{"source","photos":[paths],"property":{...}}]}
