@@ -4,11 +4,10 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$ROOT/build/sql/superadmin.sql"
-read -r -p "Nombre del superadmin: " NAME
-read -r -p "Correo de acceso: " EMAIL
-read -r -s -p "Contraseña (12 a 72 caracteres): " PASS; echo
-read -r -s -p "Repite la contraseña: " PASS2; echo
-[ "$PASS" = "$PASS2" ] || { echo "Las contraseñas no coinciden." >&2; exit 1; }
+. "$ROOT/deploy/prompt.sh"
+ask_text NAME "Nombre del superadmin (ej. Aldo Celle)" 2
+ask_email EMAIL "Correo de acceso"
+ask_password PASS "Contraseña"
 mkdir -p "$(dirname "$OUT")"; umask 077
 NAME="$NAME" EMAIL="$EMAIL" PASS="$PASS" php -r '
 $email=strtolower(trim(getenv("EMAIL")));$name=trim(getenv("NAME"));$pass=getenv("PASS");
@@ -17,5 +16,5 @@ $q=fn($v)=>"'"'"'".str_replace("'"'"'","'"'"''"'"'",$v)."'"'"'";
 $id=sprintf("%s-%s-4%s-%s%s-%s",bin2hex(random_bytes(4)),bin2hex(random_bytes(2)),substr(bin2hex(random_bytes(2)),1),"89ab"[random_int(0,3)],substr(bin2hex(random_bytes(2)),1),bin2hex(random_bytes(6)));
 echo "-- Superadmin de Panorama. Importar UNA vez, después de install.sql.\n";
 echo "INSERT INTO platform_admins VALUES(",$q($id),",",$q($email),",",$q($name),",",$q(password_hash($pass,PASSWORD_DEFAULT)),",1,",$q(gmdate("Y-m-d\TH:i:s\Z")),");\n";' > "$OUT"
-unset PASS PASS2
+unset PASS
 echo "Generado build/sql/superadmin.sql. Contiene el hash de la contraseña: no lo compartas ni lo subas."

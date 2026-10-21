@@ -13,17 +13,16 @@ mkdir -p "$TMP/var"
 printf 'APP_ENV=development\nDB_DRIVER=sqlite\nDB_PATH=var/account.sqlite\n' > "$TMP/.env"
 php "$TMP/bin/migrate.php" >/dev/null
 
-read -r -p "Nombre de la persona administradora: " NAME
-read -r -p "Correo de acceso: " EMAIL
-read -r -p "Nombre de la corredora: " ORG
-read -r -s -p "Contraseña (12 a 72 caracteres): " PASS; echo
-read -r -s -p "Repite la contraseña: " PASS2; echo
-[ "$PASS" = "$PASS2" ] || { echo "Las contraseñas no coinciden." >&2; exit 1; }
+. "$ROOT/deploy/prompt.sh"
+ask_text ORG "Nombre de la corredora (ej. Propiedades Mar)" 2
+ask_text NAME "Nombre de la persona administradora" 2
+ask_email EMAIL "Correo de acceso de la corredora (distinto al del superadmin si quieres separarlos)"
+ask_password PASS "Contraseña de la corredora"
 
 # JSON armado por PHP desde variables de entorno: sin problemas de comillas y sin la contraseña en argumentos.
 NAME="$NAME" EMAIL="$EMAIL" ORG="$ORG" PASS="$PASS" php -r 'echo json_encode(["name"=>getenv("NAME"),"email"=>getenv("EMAIL"),"password"=>getenv("PASS"),"organizationName"=>getenv("ORG"),"kind"=>"broker"]);' \
   | php "$TMP/bin/create-account.php" >/dev/null
-unset PASS PASS2
+unset PASS
 
 mkdir -p "$(dirname "$OUT")"
 umask 077

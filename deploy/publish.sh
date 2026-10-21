@@ -14,7 +14,12 @@ export FTP_HOST="${FTP_HOST:-a0031369.ferozo.com}"
 export FTP_USER="${FTP_USER:-panorama@expresswebsite.cl}"
 
 echo "== 1/3 Paquete =="
-deploy/build.sh
+# Si ya se armó (p. ej. un intento anterior se detuvo después), se puede reutilizar sin volver a pedir la contraseña.
+if [ -f build/panorama/app/.env ] && read -r -p "Ya hay un paquete armado. ¿Reutilizarlo? (s/n): " reuse && [ "$reuse" = "s" ]; then
+  echo "Reutilizando build/panorama."
+else
+  deploy/build.sh
+fi
 
 if [ "${1:-}" != "--update" ]; then
   echo; echo "== 2/3 Base de datos (solo la primera vez) =="
