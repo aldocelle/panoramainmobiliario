@@ -21,8 +21,10 @@ get() { sed -n "s/^$1=//p" "$ENV_FILE" | tail -1; }
 [ "$(get DB_DRIVER)" = mysql ] || fail "DB_DRIVER debe ser mysql."
 for k in DB_DATABASE DB_USERNAME; do [ -n "$(get $k)" ] || fail "$k está vacío."; done
 # Si DB_PASSWORD está vacío se pide aquí: queda solo en el paquete (app/.env), no en deploy/production.env.
+# PANORAMA_NO_DB_ENV=1 (actualizaciones con deploy/subir.sh): no se pide la contraseña ni se genera app/.env;
+# el servidor conserva el suyo.
 DB_PASS="$(get DB_PASSWORD)"
-if [ -z "$DB_PASS" ]; then
+if [ -z "$DB_PASS" ] && [ "${PANORAMA_NO_DB_ENV:-}" != 1 ]; then
   [ -t 0 ] || fail "DB_PASSWORD está vacío y no hay terminal para pedirlo."
   read -r -s -p "Contraseña de la base $(get DB_DATABASE): " DB_PASS; echo
   [ -n "$DB_PASS" ] || fail "la contraseña de la base no puede estar vacía."
@@ -64,8 +66,10 @@ cp "$ROOT/backend/public/.htaccess" "$OUT/api/.htaccess"
 sed 's#dirname(__DIR__) . "/bootstrap.php"#dirname(__DIR__) . "/app/bootstrap.php"#' "$ROOT/backend/public/index.php" > "$OUT/api/index.php"
 grep -q '"/app/bootstrap.php"' "$OUT/api/index.php" || fail "no se pudo ajustar api/index.php."
 umask 077
-grep -v '^DB_PASSWORD=' "$ENV_FILE" > "$OUT/app/.env"
-printf 'DB_PASSWORD=%s\n' "$DB_PASS" >> "$OUT/app/.env"
+if [ "${PANORAMA_NO_DB_ENV:-}" != 1 ]; then
+  grep -v '^DB_PASSWORD=' "$ENV_FILE" > "$OUT/app/.env"
+  printf 'DB_PASSWORD=%s\n' "$DB_PASS" >> "$OUT/app/.env"
+fi
 unset DB_PASS
 
 # Esquema completo + registro en schema_migrations, para que bin/migrate.php no lo repita después.

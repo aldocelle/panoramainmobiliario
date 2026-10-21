@@ -60,7 +60,9 @@ El script pide la contraseña en la terminal, muestra el contenido actual de `/p
 
 Vuelve a ejecutar `deploy/build.sh` y `deploy/upload.sh`. Los archivos nuevos o cambiados se sobrescriben; las fotos de `app/var/media` no se tocan. Si hay migraciones nuevas en `backend/database/migrations/`, aplícalas antes de subir el código: con SSH `php bin/migrate.php`; sin SSH importa ese archivo en phpMyAdmin y agrega su fila en `schema_migrations`. `deploy/build.sh` deja cada migración lista para phpMyAdmin en `build/sql/updates/`. La 005 (`005_public_profiles.sql`, página pública de corredoras) debe importarse antes de subir el código, porque el listado público ya consulta `public_profiles`.
 
-Para publicar solo la interfaz, sin tocar la API ni la base: `deploy/upload-ui.sh` (pide únicamente la contraseña FTP). Lo nuevo que dependa del servidor queda oculto o con aviso hasta actualizarlo.
+**Actualización rápida (recomendada): `deploy/subir.sh`.** Pide la contraseña FTP una sola vez y la guarda en el Llavero de macOS (servicio `panorama-ftp`); no pide la de la base porque conserva el `app/.env` del servidor; detecta la carpeta del sitio; sube solo los archivos nuevos o con otro tamaño y nunca borra; antes de subir recuerda las migraciones pendientes de `build/sql/updates/`. `deploy/subir.sh --ui` sube solo la interfaz; `--yes` omite la pregunta final. Si el servidor no tiene `app/.env`, se detiene: la primera instalación se hace con `deploy/publish.sh`.
+
+Para publicar solo la interfaz sin el Llavero también existe `deploy/upload-ui.sh`. Lo nuevo que dependa del servidor queda oculto o con aviso hasta actualizarlo.
 
 ## Imágenes
 

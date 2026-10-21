@@ -170,3 +170,4 @@ export/
 # Notas locales y archivos de macOS: pueden contener credenciales, nunca al repositorio
 *.rtf
 .DS_Store
+deploy/.production-migration
