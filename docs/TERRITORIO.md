@@ -22,3 +22,7 @@ Revisión del 21 de octubre de 2026: el listado marca la antigua API de Divisió
 6. Validar combinaciones en servidor. Incorporar coordenadas y geocodificación por separado, con controles de privacidad de ubicación.
 
 No se debe afirmar que el portal contiene oferta en una comuna solo porque exista en el catálogo. Las páginas geográficas y conteos deben derivarse de propiedades efectivamente publicadas.
+
+## Zonificación comercial de referencia
+
+La imagen aportada posteriormente por el usuario se transcribió a `src/data/reference-zones.json` y `docs/ZONAS_TRANSCRIPCION.md`: 153 entradas (Norte 16, Quinta región 27, Región metropolitana 43 y Sur 67). Se usa únicamente en Planes y cupos → Inmobiliarias y proyectos para consultar y filtrar la zonificación comercial de referencia; no aparece en la publicación individual de corredores. Es un catálogo comercial externo parcial, no una división administrativa ni cobertura oficial del país. No asigna tarifas de Panorama, no completa automáticamente comunas ausentes y no declara vigente la clasificación del competidor. Los alias de búsqueda se mantienen fuera de la transcripción literal.

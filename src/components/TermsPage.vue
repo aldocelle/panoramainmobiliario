@@ -1,0 +1,8 @@
+<script setup>
+import terms from '../data/terms.json'
+defineEmits(['plans'])
+function goTo(id){document.getElementById('term-'+id)?.scrollIntoView({block:'start',behavior:'auto'})}
+const plain=()=>`${terms.title}\nVersión ${terms.version} · ${terms.updated}\n${terms.status}\n\n`+terms.sections.map((s,i)=>`${i+1}. ${s.title}\n\n${s.paragraphs.join('\n\n')}`).join('\n\n')
+function download(){const url=URL.createObjectURL(new Blob([plain()],{type:'text/plain;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='Panorama-Inmobiliario-Condiciones-v0.2.txt';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+</script>
+<template><article class="terms-page"><span class="eyebrow">PANORAMA INMOBILIARIO · DOCUMENTO PROPIO</span><h2>Términos y condiciones de uso</h2><p>Versión {{terms.version}} · Revisión: {{terms.updated}}</p><div class="notice">{{terms.status}}. Este documento no está vigente y no se solicita su aceptación. La demostración sigue funcionando con datos locales de prueba, sin contratación ni cobros.</div><div class="terms-actions"><button class="button secondary" @click="download">Descargar documento</button><button class="text-button" @click="$emit('plans')">Revisar planes y cupos</button></div><nav class="terms-index" aria-label="Índice de condiciones"><h3>Contenido</h3><button v-for="(section,i) in terms.sections" :key="section.id" @click="goTo(section.id)">{{i+1}}. {{section.title}}</button></nav><section v-for="(section,i) in terms.sections" :id="'term-'+section.id" :key="section.id"><h3>{{i+1}}. {{section.title}}</h3><p v-for="paragraph in section.paragraphs" :key="paragraph">{{paragraph}}</p></section><button class="button secondary" @click="$emit('plans')">Volver a planes</button></article></template>

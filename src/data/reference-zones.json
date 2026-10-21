@@ -1,0 +1,1078 @@
+{
+  "title": "Zonificación comercial transcrita de imagen aportada por el usuario",
+  "source": "Referencia atribuida por el usuario a Portalinmobiliario.com; imagen sin fecha de vigencia visible.",
+  "status": "Referencia externa, no tarifa ni clasificación oficial de Panorama",
+  "records": [
+    {
+      "group": "Norte",
+      "commune": "Alto Hospicio",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Antofagasta",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Norte",
+      "commune": "Arica",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Caldera",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Calama",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Copiapó",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Coquimbo",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Norte",
+      "commune": "Huasco",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Illapel",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Iquique",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Norte",
+      "commune": "La Serena",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Norte",
+      "commune": "Los Vilos",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Mejillones",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Ovalle",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Salamanca",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Norte",
+      "commune": "Vallenar",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Algarrobo",
+      "market": "Centro",
+      "zone": 2,
+      "label": "Centro - Zona 2"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Calera",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Calle Larga",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Cartagena",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Casablanca",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Concón",
+      "market": "Centro",
+      "zone": 1,
+      "label": "Centro - Zona 1"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "El Quisco",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "El Tabo",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "La Cruz",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "La Ligua",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Limache",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Los Andes",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Olmué",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Papudo",
+      "market": "Centro",
+      "zone": 2,
+      "label": "Centro - Zona 2"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Puchuncaví",
+      "market": "Centro",
+      "zone": 2,
+      "label": "Centro - Zona 2"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Quillota",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Quilpué",
+      "market": "Centro",
+      "zone": 2,
+      "label": "Centro - Zona 2"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Quintero",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Rinconada",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "San Antonio",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "San Esteban",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "San Felipe",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Santo Domingo",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Valparaíso",
+      "market": "Centro",
+      "zone": 1,
+      "label": "Centro - Zona 1"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Villa Alemana",
+      "market": "Centro",
+      "zone": 2,
+      "label": "Centro - Zona 2"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Viña del Mar",
+      "market": "Centro",
+      "zone": 1,
+      "label": "Centro - Zona 1"
+    },
+    {
+      "group": "Quinta región",
+      "commune": "Zapallar",
+      "market": "Centro",
+      "zone": 3,
+      "label": "Centro - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Buin",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Calera de Tango",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Cerrillos",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Colina",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Conchalí",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "El Bosque",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "El Monte",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Estación Central",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Huechuraba",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Independencia",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Isla de Maipo",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "La Cisterna",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "La Florida",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "La Granja",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "La Pintana",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "La Reina",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Lampa",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Las Condes",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Lo Barnechea",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Macul",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Maipú",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Melipilla",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Ñuñoa",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Padre Hurtado",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Paine",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Pedro Aguirre C.",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Peñaflor",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Peñalolén",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Providencia",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Pudahuel",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Puente Alto",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Quilicura",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Quinta Normal",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Recoleta",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Renca",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "San Bernardo",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "San Joaquín",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "San Miguel",
+      "market": "RM",
+      "zone": 2,
+      "label": "RM - Zona 2"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "San Ramón",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Santiago",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Talagante",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Til Til",
+      "market": "RM",
+      "zone": 3,
+      "label": "RM - Zona 3"
+    },
+    {
+      "group": "Región metropolitana",
+      "commune": "Vitacura",
+      "market": "RM",
+      "zone": 1,
+      "label": "RM - Zona 1"
+    },
+    {
+      "group": "Sur",
+      "commune": "Antártica",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Aysén",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Bulnes",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Castro",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Cauquenes",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Chiguayante",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Chillán",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Sur",
+      "commune": "Chillán Viejo",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Sur",
+      "commune": "Codegua",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Coelemu",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Colbún",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Concepción",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Sur",
+      "commune": "Constitución",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Coronel",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Curacautín",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Curaco de Vélez",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Curicó",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Frutillar",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Futrono",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Graneros",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Hualañé",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Hualpén",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Hualqui",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "La Estrella",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Las Cabras-L. Rapel",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Lautaro",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Linares",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Llanquihue",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Loncoche",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Los Ángeles",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Los Lagos",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Los Muermos",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Machalí",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Maule",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Molina",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Mostazal",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Natales",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Navidad",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Olivar",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Osorno",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Padre las Casas",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Panguipulli",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Parral",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Penco",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Pitrufquén",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Pucón",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Puerto Montt",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Puerto Octay",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Puerto Varas",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Punta Arenas",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Rancagua",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Sur",
+      "commune": "Rengo",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Requínoa",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Río Bueno",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "San Carlos",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "San Fernando",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "San Pedro de la Paz",
+      "market": "Norte/Sur",
+      "zone": 1,
+      "label": "Norte/Sur - Zona 1"
+    },
+    {
+      "group": "Sur",
+      "commune": "Santa Cruz",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Santa Juana",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Talca",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Talcahuano",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Temuco",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Teno",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Valdivia",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Vilcún",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    },
+    {
+      "group": "Sur",
+      "commune": "Villarrica",
+      "market": "Norte/Sur",
+      "zone": 2,
+      "label": "Norte/Sur - Zona 2"
+    },
+    {
+      "group": "Sur",
+      "commune": "Yerbas Buenas",
+      "market": "Norte/Sur",
+      "zone": 3,
+      "label": "Norte/Sur - Zona 3"
+    }
+  ]
+}

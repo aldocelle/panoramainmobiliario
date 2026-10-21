@@ -49,3 +49,13 @@ Las fotografías y Google Fonts necesitan conexión; la interfaz tiene colores y
 ## Próxima fase
 
 Backend con base de datos y migraciones; autenticación y aislamiento por corredora; almacenamiento de imágenes; catálogo territorial completo y validado; búsqueda geográfica; gestión de propietarios; consentimiento y tratamiento de datos; notificaciones e integraciones autorizadas; planes y facturación. La integración con APIs de terceros requiere comprobar disponibilidad, condiciones y límites antes de operar.
+
+## Planes y condiciones en preparación
+
+En **Planes y cupos** puedes probar capacidades de 5, 30 y 100 publicaciones activas. Precios de Panorama pendientes; no hay contratación, cobros ni renovación. Los límites se comprueban en la publicación y al cambiar estados; los borradores no consumen cupos. La selección de capacidad se guarda solo como simulación local. La pantalla **Condiciones** es un borrador original de producto, sin aceptación contractual. Ver [especificación de planes](docs/PLANES.md).
+
+Las condiciones propias de Panorama se encuentran en [Términos y condiciones](docs/TERMINOS_Y_CONDICIONES.md), con [decisiones de adaptación](docs/ADAPTACION_CONDICIONES.md). El contenido de la pantalla y el documento comparten `src/data/terms.json`; regenerar con `node scripts/export-terms.mjs`.
+
+En Planes y cupos también está la consulta de [zonas comerciales transcritas de la imagen](docs/ZONAS_TRANSCRIPCION.md). Se conserva como referencia externa: no sustituye el catálogo territorial ni determina tarifas propias.
+
+**Marca y beneficios** permite configurar nombre/logo para las publicaciones y descargar un reporte CSV actual de cartera. Informes trimestrales y webinars aparecen como beneficios previstos, aún no disponibles. Ver [beneficios para corredores](docs/BENEFICIOS_CORREDORES.md).
