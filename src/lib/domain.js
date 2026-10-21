@@ -57,3 +57,14 @@ export function toApi(p) {
  if (p.id) Object.assign(body, { id: p.id, version: p.version })
  return body
 }
+
+// Interesados y visitas: la API usa snake_case y horarios en segundos UTC.
+export const leadFromApi = l => ({ id: l.id, propertyId: l.property_id, name: l.name, email: l.email, phone: l.phone, note: l.note, stage: l.stage, version: l.version, createdAt: l.created_at })
+export const visitFromApi = v => ({ id: v.id, propertyId: v.property_id, leadId: v.lead_id, agentId: v.agent_id, start: v.starts_at * 1000, end: v.ends_at * 1000, note: v.note, status: v.status, version: v.version })
+const isoSeconds = ms => new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z')
+// date y time vienen de inputs locales del navegador; la API recibe el instante con zona explícita.
+export function visitToApi({ propertyId, leadId, date, time, duration = 60, note = '' }, agentId) {
+ const start = new Date(`${date}T${time}`).getTime()
+ if (!Number.isFinite(start)) return null
+ return { propertyId, leadId, agentId, startsAt: isoSeconds(start), endsAt: isoSeconds(start + Number(duration) * 60000), note }
+}

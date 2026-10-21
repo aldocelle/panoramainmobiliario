@@ -413,6 +413,15 @@ Las descripciones anteriores del estado de implementación corresponden al proto
 
 El programa de corredores tiene directorio con cobertura declarada, selección explícita de hasta tres corredores, aceptación/rechazo, contacto visible después de aceptar, gestión del propietario por token privado y baja inmediata. Son decisiones propias de esta implementación: no se copian la baja a fin de mes, evaluaciones históricas ni verificación del competidor.
 
-Hay 59 rutas y pruebas de integración locales en SQLite y MariaDB. La interfaz Vue continúa usando localStorage; no hay hosting productivo, pago, facturación ni notificaciones de captación implementadas. Recuperación de contraseña tiene API/cola cifrada, pero requiere activar transporte y conectar pantalla frontend antes de ofrecerse. Los planes siguen sin precio propio ni contratación.
+Hay 59 rutas y pruebas de integración locales en SQLite y MariaDB. La interfaz Vue ya usa la API para sesión, cartera, portal público, consultas, interesados y agenda; favoritos y marca siguen en el navegador. No hay hosting productivo, pago, facturación ni notificaciones de captación implementadas. Recuperación de contraseña tiene API/cola cifrada, pero requiere activar transporte y conectar pantalla frontend antes de ofrecerse. Los planes siguen sin precio propio ni contratación.
 
 Guías vigentes: [Backend](../backend/README.md), [API](API_PHP.md), [Despliegue](DESPLIEGUE_PHP.md). El resultado no sustituye las decisiones comerciales, datos de la empresa ni revisión final de documentos de operación.
+
+## 21. Actualización: integración frontend y rescate de PropiedadesMar
+
+Fecha: 21 de octubre de 2026. Por decisión del usuario, el trabajo se mantiene solo en localhost (sin Hostinger ni despliegues) hasta nuevo aviso.
+
+- El panel del corredor y el portal público usan la API PHP: login, cartera con cupos, publicación, consultas con consentimiento versionado, interesados con etapas y notas, y agenda con duración, conflictos y cancelación.
+- Paleta visual cambiada a **Arena Cálida** (fondo `#F5EDE0`, acento terracota `#A4481C`, arena `#E9C9A0`), con animaciones sutiles que respetan movimiento reducido. Reemplaza la paleta verde descrita en la sección 11.
+- Del proyecto PropiedadesMar se rescataron: características opcionales de la ficha (estacionamientos, bodegas, superficies útil y de terraza, gastos comunes, piso, año, amoblado, mascotas, equipamiento), los tipos Parcela y Bodega, galería de hasta 20 fotos e importación de avisos en formato `datos.txt` + fotos. No se importaron sus avisos: provienen de otro portal e incluyen datos de contacto de terceros.
+- La versión del aviso de privacidad configurada en local es un borrador técnico; no constituye una política de privacidad vigente.

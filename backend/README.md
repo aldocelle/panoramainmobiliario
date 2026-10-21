@@ -43,7 +43,7 @@ Ejemplo de `cuenta.json` temporal, con permisos restringidos, fuera del reposito
 
 ## Integración con Vue
 
-El frontend del repositorio **todavía usa datos ficticios y localStorage**. La API no cambia ese comportamiento por sí sola. Usa [el cliente JavaScript](client/panorama-api.js) para la migración de vistas, reemplazando las lecturas/escrituras locales por solicitudes autenticadas. No importes los datos ficticios como cartera real.
+El frontend ya usa la API para sesión, cartera, portal público, consultas, interesados y agenda, mediante [el cliente JavaScript](client/panorama-api.js). En desarrollo, Vite redirige `/api` a `127.0.0.1:8080` (ver `vite.config.js`), de modo que la cookie de sesión es del mismo origen. Favoritos y marca/logo siguen en el navegador. Para recibir consultas, `PRIVACY_NOTICE_VERSION` debe tener valor; en local se usa una versión de borrador, que no reemplaza una política de privacidad real.
 
 ```js
 import { PanoramaApi } from './backend/client/panorama-api.js'

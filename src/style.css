@@ -37,3 +37,4 @@
 .photo-url{display:flex;gap:8px}.photo-url input{flex:1;min-width:0}
 .detail-specs{display:flex;flex-wrap:wrap;gap:6px;list-style:none;padding:0;margin:0 0 14px}.detail-specs li{background:var(--bg-main);border:1px solid var(--border);border-radius:50px;padding:3px 10px;font-size:12px}
 .detail-gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-bottom:14px}.detail-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:6px}
+.consent{flex-direction:row;align-items:flex-start;gap:10px;font-weight:500}.consent input{width:auto;margin-top:2px}

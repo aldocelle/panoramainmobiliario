@@ -35,6 +35,13 @@ export class PanoramaApi {
   session() { return this.request('GET', '/auth/session') }
   login(email, password) { return this.request('POST', '/auth/login', { email, password }) }
   async logout() { await this.request('POST', '/auth/logout', {}); this.csrf = null }
+  publicConfig() { return this.request('GET', '/public/config') }
+  inquire(propertyId, body) { return this.request('POST', `/public/properties/${encodeURIComponent(propertyId)}/inquiries`, { website: '', ...body }) }
+  leads(query = {}) { return this.request('GET', '/leads', undefined, { query }) }
+  updateLead(id, { stage, note, version }) { return this.request('PUT', `/leads/${encodeURIComponent(id)}`, { stage, note, version }) }
+  visits(query = {}) { return this.request('GET', '/visits', undefined, { query }) }
+  createVisit(visit) { return this.request('POST', '/visits', visit) }
+  cancelVisit(id, version) { return this.request('DELETE', `/visits/${encodeURIComponent(id)}`, { version }) }
   subscription() { return this.request('GET', '/workspace/subscription') }
   properties(query = {}, isPublic = false) { return this.request('GET', `${isPublic ? '/public' : ''}/properties`, undefined, { query }) }
   saveProperty(property) {
