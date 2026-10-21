@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Propiedad sin fotografías">
+  <rect width="400" height="300" fill="#F1E6D6"/>
+  <circle cx="318" cy="70" r="26" fill="#E9C9A0"/>
+  <path d="M0 238 Q100 214 200 236 T400 230 V300 H0Z" fill="#E7D7C1"/>
+  <g fill="none" stroke="#2B2118" stroke-width="7" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M118 236 V140 L200 86 L282 140 V236 Z"/>
+    <path d="M176 236 V182 H224 V236"/>
+    <path d="M136 156 L200 114 L264 156"/>
+  </g>
+  <rect x="234" y="166" width="26" height="22" rx="2" fill="#A4481C"/>
+  <rect x="140" y="166" width="26" height="22" rx="2" fill="#A4481C" opacity=".55"/>
+  <text x="200" y="276" text-anchor="middle" font-family="DM Sans, Arial, sans-serif" font-size="17" fill="#6B5D4F">Fotografías próximamente</text>
+</svg>

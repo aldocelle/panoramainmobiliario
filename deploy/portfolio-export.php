@@ -3,12 +3,13 @@ declare(strict_types=1);
 // Exporta la cartera de una corredora de la base local a otra instalación (p. ej. producción sin SSH).
 // Genera export/portfolio.sql (propiedades, fotos y cupo) y copia las fotos a export/media/,
 // que deploy/build.sh incluye en app/var/media del paquete.
-// Uso: php deploy/portfolio-export.php <id-org-local> <id-org-destino> <prefijo-api-destino> <cupo>
+// Uso: php deploy/portfolio-export.php <id-org-local> <id-org-destino> <prefijo-api-destino> <cupo> [desde-ISO]
+// Con [desde-ISO] solo exporta propiedades creadas desde esa fecha (para no repetir las ya importadas).
 if (PHP_SAPI !== "cli") {
     http_response_code(404);
     exit();
 }
-[$_, $from, $to, $prefix, $limit] = $argv + [null, null, null, null, null];
+[$_, $from, $to, $prefix, $limit, $since] = $argv + [null, null, null, null, null, ""];
 $uuid = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/';
 if (!preg_match($uuid, (string) $from) || !preg_match($uuid, (string) $to) || !preg_match('~^(/[A-Za-z0-9_-]+)*/api/v1$~', (string) $prefix) || !ctype_digit((string) $limit)) {
     fwrite(STDERR, "Uso: php deploy/portfolio-export.php <id-org-local> <id-org-destino> <prefijo-api> <cupo>\n");
@@ -21,8 +22,8 @@ $q = fn($v) => $v === null ? "NULL" : (is_int($v) || is_float($v) ? (string) $v 
 $insert = function (string $table, array $row) use ($q): string {
     return "INSERT INTO $table(" . implode(",", array_keys($row)) . ") VALUES(" . implode(",", array_map($q, array_values($row))) . ");";
 };
-$props = $pdo->prepare("SELECT * FROM properties WHERE organization_id=? AND deleted_at IS NULL ORDER BY created_at");
-$props->execute([$from]);
+$props = $pdo->prepare("SELECT * FROM properties WHERE organization_id=? AND deleted_at IS NULL AND created_at>=? ORDER BY created_at");
+$props->execute([$from, (string) $since]);
 $props = $props->fetchAll();
 $out = ["-- Cartera exportada a la organización $to. Importar UNA vez, después de la cuenta.", "START TRANSACTION;"];
 $mediaIds = [];
@@ -68,7 +69,7 @@ foreach (array_unique($mediaIds) as $id) {
 $now = gmdate("Y-m-d\TH:i:s\Z");
 $out[] = "INSERT INTO administrative_changes(id,organization_id,reason,old_limit,new_limit,old_status,new_status,created_at,actor) SELECT " .
     $q(sprintf("%s-%s-4%s-a%s-%s", bin2hex(random_bytes(4)), bin2hex(random_bytes(2)), substr(bin2hex(random_bytes(2)), 1), substr(bin2hex(random_bytes(2)), 1), bin2hex(random_bytes(6)))) .
-    ",organization_id,'Carga inicial de cartera exportada',publication_limit,$limit,status,'active'," . $q($now) . ",'export' FROM subscriptions WHERE organization_id=" . $q($to) . ";";
+    ",organization_id,'Carga de cartera exportada',publication_limit,$limit,status,'active'," . $q($now) . ",'export' FROM subscriptions WHERE organization_id=" . $q($to) . ";";
 $out[] = "UPDATE subscriptions SET publication_limit=$limit,status='active',updated_at=" . $q($now) . " WHERE organization_id=" . $q($to) . ";";
 $out[] = "COMMIT;";
 umask(077);

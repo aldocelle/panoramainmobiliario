@@ -12,6 +12,26 @@ require dirname(__DIR__) . "/bootstrap.php";
 // WebP re-encoding, quota checks and audit apply; only the network rate limit is skipped.
 // Listings whose title already exists in the organization are skipped, so reruns are safe.
 use Panorama\{Config, Database, Auth, MediaService, PropertyService, Request, Validator, ApiError, Support};
+// Igual que el navegador antes de subir: fotos sobre 2560 px se reducen (JPEG 90) para entrar en los
+// límites de la API; el servidor luego las optimiza a 1920 px y crea la miniatura.
+function fitForUpload(string $bytes): string
+{
+    $size = @getimagesizefromstring($bytes);
+    if (!$size || max($size[0], $size[1]) <= 2560 || !($image = @imagecreatefromstring($bytes))) {
+        return $bytes;
+    }
+    if ($size[2] === IMAGETYPE_JPEG) {
+        $image = Panorama\MediaService::orient($image, $bytes);
+    }
+    $w = imagesx($image);
+    $h = imagesy($image);
+    $ratio = 2560 / max($w, $h);
+    $scaled = imagecreatetruecolor((int) round($w * $ratio), (int) round($h * $ratio));
+    imagecopyresampled($scaled, $image, 0, 0, 0, 0, imagesx($scaled), imagesy($scaled), $w, $h);
+    ob_start();
+    imagejpeg($scaled, null, 90);
+    return ob_get_clean();
+}
 try {
     $input = json_decode(stream_get_contents(STDIN), true, 64, JSON_THROW_ON_ERROR);
     Validator::keys($input, ["organizationId", "userId", "listings"]);
@@ -44,7 +64,11 @@ try {
                 echo "  ! foto omitida (no legible o > 4 MiB): " . basename($path) . "\n";
                 continue;
             }
-            $urls[] = $media->upload($request("/media", ["contentBase64" => base64_encode($bytes)]))->data["url"];
+            try {
+                $urls[] = $media->upload($request("/media", ["contentBase64" => base64_encode(fitForUpload($bytes))]))->data["url"];
+            } catch (ApiError $e) {
+                echo "  ! foto omitida (" . basename($path) . "): {$e->getMessage()}\n";
+            }
         }
         $p = $properties->create($request("/properties", ["images" => $urls] + $listing["property"]))->data;
         $created++;
