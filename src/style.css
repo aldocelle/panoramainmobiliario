@@ -74,6 +74,9 @@
 .public-main .result-count{margin-top:6px;font-size:13px}
 .filter-chips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:-6px 0 24px}
 .chip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 10px 0 14px;border-radius:999px;background:var(--badge);color:var(--accent);font-size:12px;font-weight:600;transition:background .2s}.chip:hover{background:#D5DFEE}.chip svg{width:14px;height:14px}
+.home-row+.home-row{margin-top:44px}.row-heading{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}.row-heading h3{margin:0;font-size:21px;letter-spacing:-.5px}.row-heading .text-button{font-size:12px;color:var(--blue)}
+.see-all{display:flex;justify-content:center;margin-top:44px}.see-all .button{min-height:50px;padding:0 28px}
+@media(max-width:800px){.public-main .home-row .property-grid{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:min(78%,300px);overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(var(--pad) * -1);padding:4px var(--pad) 18px;scroll-padding-inline:var(--pad);scrollbar-width:none}.public-main .home-row .property-grid::-webkit-scrollbar{display:none}.home-row .property-card{scroll-snap-align:start}.row-heading{flex-wrap:wrap}}
 .favorite,.round-arrow{width:40px;height:40px}.favorite{top:12px;right:12px}
 .brokers-section{padding:0 var(--pad) 76px}
 .broker-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px;margin:0;padding:0;list-style:none}
