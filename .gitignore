@@ -157,3 +157,7 @@ var/
 *.db-wal
 *.db-shm
 backups/
+
+# Despliegue: paquete generado y configuración de producción
+build/
+deploy/production.env

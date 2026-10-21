@@ -14,7 +14,8 @@ export function validateProperty(p) {
  return errors
 }
 export const propertyTypes = ['Departamento','Casa','Terreno','Oficina','Local comercial','Parcela','Bodega']
-export const isMediaPath = url => /^\/api\/v1\/public\/media\/[0-9a-f-]{36}$/i.test(url)
+// Igual que el validador del backend: el prefijo de la API cambia según dónde se instale.
+export const isMediaPath = url => /^\/[A-Za-z0-9/_-]+\/public\/media\/[0-9a-f-]{36}$/i.test(url)
 // Características opcionales: se envían solo las que tienen dato.
 const detailKeys = ['parking','storage','usefulArea','terraceArea','commonExpenses','floor','yearBuilt','furnished','pets']
 export function cleanDetails(d = {}) {

@@ -90,7 +90,7 @@ final class Auth
                 "value" => $token,
                 "options" => [
                     "expires" => $expiry,
-                    "path" => "/",
+                    "path" => $this->config["prefix"], // solo la API; aislada de otros sitios del dominio
                     "secure" => $this->config["secure"],
                     "httponly" => true,
                     "samesite" => "Lax",
@@ -259,7 +259,7 @@ final class Auth
                 "value" => "",
                 "options" => [
                     "expires" => 1,
-                    "path" => "/",
+                    "path" => $this->config["prefix"], // solo la API; aislada de otros sitios del dominio
                     "secure" => $this->config["secure"],
                     "httponly" => true,
                     "samesite" => "Lax",
